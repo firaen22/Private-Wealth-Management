@@ -1,20 +1,48 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Private Wealth Management
 
-# Run and deploy your AI Studio app
+A high-end React application for private wealth management, featuring portfolio analysis and proposal generation.
 
-This contains everything you need to run your app locally.
+## 🚀 Getting Started
 
-View your app in AI Studio: https://ai.studio/apps/drive/1MlFaxu3hW03wK4Aquft4ZnnOTcg1ISLp
+### Prerequisites
+- Node.js (v18+)
+- npm
 
-## Run Locally
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-**Prerequisites:**  Node.js
+### Development
+Start the development server:
+```bash
+npm run dev
+```
 
+### Build
+Generate a production-ready build:
+```bash
+npm run build
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 📦 Deployment
+
+This project is configured with **GitHub Actions** for automatic deployment to GitHub Pages.
+
+- **Trigger**: Every push to the `main` branch.
+- **Workflow**: `.github/workflows/deploy.yml`
+- **Output**: Deployed to the `gh-pages` branch.
+
+### Manual Deployment
+You can also deploy manually using:
+```bash
+npm run deploy
+```
+
+## 🛠️ Project Structure
+- `App.tsx`: Main application entry and dashboard logic.
+- `components/`: Modular React components.
+- `index.html`: Base HTML template with Tailwind CDN and custom styles.
+- `vite.config.ts`: Vite configuration with path aliases and environment variables.
