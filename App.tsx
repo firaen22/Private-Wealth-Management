@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Building2, 
-  FileText, 
-  Users, 
-  ArrowRight, 
-  LineChart, 
+import {
+  Building2,
+  FileText,
+  Users,
+  ArrowRight,
+  LineChart,
   ShieldCheck,
   ChevronRight
 } from 'lucide-react';
@@ -54,7 +54,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-6 py-12 md:py-20 flex flex-col items-center justify-center min-h-screen">
-        
+
         {/* Header Section */}
         <header className="text-center mb-16 animate-fade-in-up">
           <h1 className="text-4xl md:text-6xl font-serif font-medium text-white mb-2 tracking-tight">
@@ -67,21 +67,21 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
-          
+
           {/* Card 1: Property */}
-          <button 
-            onClick={() => onViewChange('calculator')}
+          <button
+            onClick={() => window.location.href = 'https://firaen22.github.io/TMP2-mortgage-with-report/'}
             className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-            
+
             <div className="relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-500">
                 <Building2 className="w-7 h-7 text-white" />
               </div>
               <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">物業保值及收息倉方案</h3>
               <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                Property Appreciation<br/>Solution & Funds
+                Property Appreciation<br />Solution & Funds
               </p>
               <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
                 Advanced mortgage calculators and fund appreciation projection tools for real estate assets.
@@ -95,12 +95,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
           </button>
 
           {/* Card 2: Proposal */}
-          <button 
-            onClick={() => onViewChange('proposal')}
+          <button
+            onClick={() => window.location.href = 'https://firaen22.github.io/proposal-genertor-v8/'}
             className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between border-t border-gold-500/20"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-gold-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-            
+
             <div className="relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center mb-6 shadow-lg shadow-gold-500/20 group-hover:scale-110 transition-transform duration-500">
                 <FileText className="w-7 h-7 text-slate-900" />
@@ -120,13 +120,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
             </div>
           </button>
 
+
           {/* Card 3: VIP */}
-          <button 
+          <button
             onClick={() => onViewChange('vip')}
             className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-            
+
             <div className="relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center mb-6 shadow-lg shadow-slate-900/50 group-hover:scale-110 transition-transform duration-500">
                 <Users className="w-7 h-7 text-white" />
@@ -150,14 +151,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
         {/* Footer Indicators */}
         <div className="mt-20 flex space-x-12 text-slate-500 text-xs tracking-widest uppercase">
-           <div className="flex items-center">
-             <ShieldCheck className="w-4 h-4 mr-2 text-gold-500" />
-             Bank Grade Security
-           </div>
-           <div className="flex items-center">
-             <LineChart className="w-4 h-4 mr-2 text-gold-500" />
-             Real-time Analytics
-           </div>
+          <div className="flex items-center">
+            <ShieldCheck className="w-4 h-4 mr-2 text-gold-500" />
+            Bank Grade Security
+          </div>
+          <div className="flex items-center">
+            <LineChart className="w-4 h-4 mr-2 text-gold-500" />
+            Real-time Analytics
+          </div>
         </div>
       </div>
     </div>
