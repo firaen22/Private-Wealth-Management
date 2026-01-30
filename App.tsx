@@ -56,6 +56,18 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-6 py-12 md:py-20 flex flex-col items-center justify-center min-h-screen">
 
+        {/* Top Right Portal Access */}
+        <div className="absolute top-8 right-8 z-20">
+          <button
+            onClick={() => onViewChange('vip')}
+            className="flex items-center space-x-2 px-5 py-2.5 rounded-full border border-gold-500/30 bg-gold-500/5 hover:bg-gold-500/10 transition-all group backdrop-blur-sm"
+          >
+            <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></div>
+            <Users className="w-4 h-4 text-gold-400" />
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-gold-400 group-hover:text-gold-300 transition-colors">VIP Portal Login</span>
+          </button>
+        </div>
+
         {/* Header Section */}
         <header className="text-center mb-16 animate-fade-in-up">
           <h1 className="text-4xl md:text-6xl font-serif font-medium text-white mb-2 tracking-tight">
@@ -67,7 +79,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         </header>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl">
 
           {/* Card 1: Property */}
           <button
@@ -117,33 +129,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
             <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
               <span>Generate Now</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
-            </div>
-          </button>
-
-
-          {/* Card 3: VIP */}
-          <button
-            onClick={() => onViewChange('vip')}
-            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center mb-6 shadow-lg shadow-slate-900/50 group-hover:scale-110 transition-transform duration-500">
-                <Users className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">客户系統</h3>
-              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                VIP System
-              </p>
-              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-                Manage high-net-worth individual portfolios, tier status, and relationship milestones.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
-              <span>View Clients</span>
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
             </div>
           </button>
