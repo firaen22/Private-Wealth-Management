@@ -37,7 +37,8 @@ This project is configured with **GitHub Actions** for automatic deployment to G
 
 ### Deployment Link
 Once the GitHub Action completes, your site will be available at:
-`https://<your-username>.github.io/Private-Wealth-Management/`
+`https://firaen22.github.io/Private-Wealth-Management/`
+
 
 > [!NOTE]
 > The `base` path in `vite.config.ts` is set to `/Private-Wealth-Management/` to match the repository name. If you rename the repository, update this value.
