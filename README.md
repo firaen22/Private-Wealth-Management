@@ -35,13 +35,12 @@ This project is configured with **GitHub Actions** for automatic deployment to G
 - **Workflow**: `.github/workflows/deploy.yml`
 - **Output**: Deployed to the `gh-pages` branch.
 
-### Manual Deployment
-You can also deploy manually using:
-```bash
-npm run deploy
-```
+### Deployment Link
+Once the GitHub Action completes, your site will be available at:
+`https://<your-username>.github.io/Private-Wealth-Management/`
 
-## 🛠️ Project Structure
+> [!NOTE]
+> The `base` path in `vite.config.ts` is set to `/Private-Wealth-Management/` to match the repository name. If you rename the repository, update this value.
 - `App.tsx`: Main application entry and dashboard logic.
 - `components/`: Modular React components.
 - `index.html`: Base HTML template with Tailwind CDN and custom styles.
