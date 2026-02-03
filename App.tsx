@@ -109,7 +109,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
           {/* Card 2: Proposal */}
           <button
-            onClick={() => window.location.href = 'https://firaen22.github.io/proposal-genertor-v8/'}
+            onClick={() => window.location.href = 'https://proposal-genertor-v8.vercel.app/'}
             className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between border-t border-gold-500/20"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-gold-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
