@@ -161,7 +161,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
           {/* Card: Fund Chart Builder */}
           <button
-            onClick={() => window.location.href = 'https://firaen22.github.io/Fund-chart-builder/'}
+            onClick={() => window.open('https://firaen22.github.io/Fund-chart-builder/', '_blank')}
             className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
