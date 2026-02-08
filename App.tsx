@@ -59,7 +59,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         {/* Top Right Portal Access */}
         <div className="absolute top-8 right-8 z-20">
           <button
-            onClick={() => onViewChange('vip')}
+            onClick={() => window.location.href = 'https://insureflow-lite.vercel.app/'}
             className="flex items-center space-x-2 px-5 py-2.5 rounded-full border border-gold-500/30 bg-gold-500/5 hover:bg-gold-500/10 transition-all group backdrop-blur-sm"
           >
             <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></div>
