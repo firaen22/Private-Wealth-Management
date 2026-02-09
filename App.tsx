@@ -7,7 +7,8 @@ import {
   LineChart,
   ShieldCheck,
   ChevronRight,
-  Globe
+  Globe,
+  Ticket
 } from 'lucide-react';
 import MortgageCalculator from './components/MortgageCalculator';
 import ProposalGenerator from './components/ProposalGenerator';
@@ -181,6 +182,32 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
             <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
               <span>View Charts</span>
+              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
+            </div>
+          </button>
+
+          {/* Card: Premium Voucher Calculator */}
+          <button
+            onClick={() => window.open('https://firaen22.github.io/premium-planner/', '_blank')}
+            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+
+            <div className="relative z-10">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center mb-6 shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform duration-500">
+                <Ticket className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">保費現金券計算機</h3>
+              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
+                Premium Voucher Calculator
+              </p>
+              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
+                Calculate premium vouchers and optimize payment strategies for insurance plans.
+              </p>
+            </div>
+
+            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
+              <span>Calculate Now</span>
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
             </div>
           </button>
