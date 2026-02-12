@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { PORTFOLIO_STRATEGIES, RiskLevel } from '../src/utils/portfolioLogic';
 import { Send, User, Bot, Loader, Brain, LayoutDashboard, PieChart, TrendingUp, AlertTriangle, Settings, Check, Infinity, XCircle, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 interface ModelStatus {
@@ -67,28 +68,38 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
     const envApiKey = import.meta.env.VITE_GEMINI_API_KEY;
     const effectiveApiKey = userApiKey || envApiKey;
 
-    const generatePrompt = (userQuery: string, data: any) => {
-        // Safe access to data properties
-        const finalEquity = data.finalNetEquity ? Math.round(data.finalNetEquity).toLocaleString() : 'N/A';
-        const roi = data.roi ? data.roi.toFixed(2) + '%' : 'N/A';
+    const generatePrompt = (userQuery: string, currentData: any) => {
+        // 將策略轉為字串供 AI 參考
+        const strategiesContext = JSON.stringify(PORTFOLIO_STRATEGIES, null, 2);
 
-        // System Instruction & Persona
         const systemInstruction = `
-    你是一個資深的 AGI 財富管理專家，負責為高淨值客戶提供 Total Solution。
-    
-    Current Portfolio Simulation Results:
-    - Final Net Equity (Year 30): ${finalEquity}
-    - Total ROI: ${roi}
-    - Monthly Net Cashflow: ${data.monthlyNetCashflow ? Math.round(data.monthlyNetCashflow).toLocaleString() : 'N/A'}
-    
-    你需要綜合分析客戶目前的物業貸款狀況、保費融資槓桿、以及資產配置比例。
-    請根據傳入的 JSON 數據提供具體的、跨產品的優化建議，例如：是否應該透過加按物業來增加保費融資的投入以對沖利率風險。
-    
-    Detailed Projection Data (First 5 Years & Year 30):
-    ${JSON.stringify(data.projectionData ? [...data.projectionData.slice(0, 5), data.projectionData[30]] : data, null, 2)}
+    你是一位專業的私人財富 AGI 規劃師 (Proposal Architect)。
+
+    【你的能力】
+    1. 你擁有以下標準投資組合策略 (Strategies):
+       ${strategiesContext}
+
+    2. 你的任務是根據用戶的對話（如年齡、目標、風險承受度），推薦一個最適合的 "RiskLevel" (Low, Medium, High) 和 "TotalBudget"。
+
+    【輸出規則】
+    如果用戶不僅僅是閒聊，而是表達了財務需求，請務必在回覆的最後，附上一個 JSON區塊 來描述你的建議方案。
+
+    JSON 格式如下：
+    \`\`\`json
+    {
+      "is_recommendation": true,
+      "suggested_plan": {
+        "risk_level": "Medium",
+        "budget": 1000000,
+        "reason": "客戶希望平衡增長與風險..."
+      }
+    }
+    \`\`\`
+
+    請先用自然語言回答客戶，解釋你的分析，然後再輸出上述 JSON。
     `;
 
-        return `${systemInstruction}\n\nUser Query: ${userQuery}`;
+        return `${systemInstruction}\n\nUser Context: ${JSON.stringify(currentData)}\nUser Query: ${userQuery}`;
     };
 
     const handleVerifyKeys = async () => {
@@ -165,15 +176,33 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
             const response = await result.response;
             const text = response.text();
 
-            setMessages(prev => [
-                ...prev,
-                {
-                    id: (Date.now() + 1).toString(),
-                    role: 'model',
-                    content: text,
-                    timestamp: new Date()
+            // 1. 嘗試提取 JSON
+            const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/\{[\s\S]*\}/);
+
+            if (jsonMatch) {
+                try {
+                    const jsonStr = jsonMatch[1] || jsonMatch[0];
+                    const recommendation = JSON.parse(jsonStr);
+
+                    if (recommendation.is_recommendation) {
+                        console.log("AI 建議方案:", recommendation.suggested_plan);
+                        // TODO: 這裡可以呼叫一個函數，例如 onApplyPlan(recommendation.suggested_plan)
+                        // 這會自動將參數填入你的 ProposalGenerator 組件
+                    }
+                } catch (e) {
+                    console.error("Failed to parse AI recommendation", e);
                 }
-            ]);
+            }
+
+            // 2. 將純文字訊息顯示給用戶 (過濾掉 JSON 以免畫面混亂)
+            const cleanMessage = text.replace(/```json[\s\S]*```/g, '').trim();
+
+            setMessages(prev => [...prev, {
+                id: (Date.now() + 1).toString(),
+                role: 'model',
+                content: cleanMessage || text, // 如果過濾後為空，就顯示原文
+                timestamp: new Date()
+            }]);
         } catch (error) {
             console.error('Error generating response:', error);
             let errorMessage = '抱歉，分析過程中發生錯誤。請稍後再試。';
