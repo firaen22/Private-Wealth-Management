@@ -1,6 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { Send, User, Bot, Loader, Brain, LayoutDashboard, PieChart, TrendingUp, AlertTriangle, Settings, Check, Infinity } from 'lucide-react';
+import { Send, User, Bot, Loader, Brain, LayoutDashboard, PieChart, TrendingUp, AlertTriangle, Settings, Check, Infinity, XCircle, CheckCircle2, ShieldCheck } from 'lucide-react';
+
+interface ModelStatus {
+    id: string;
+    status: 'pending' | 'loading' | 'valid' | 'invalid';
+    error?: string;
+}
+
+const CHECKABLE_MODELS = [
+    'gemini-2.0-flash',
+    'gemini-1.5-pro',
+    'gemini-1.5-flash',
+    'gemini-pro'
+];
 
 interface AgiPortfolioManagerProps {
     portfolioData: any;
@@ -28,6 +41,12 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
     const [showSettings, setShowSettings] = useState(false);
     const [selectedModel, setSelectedModel] = useState('gemini-2.0-flash');
     const [customModelId, setCustomModelId] = useState('');
+
+    // Verification State
+    const [isVerifying, setIsVerifying] = useState(false);
+    const [modelStatuses, setModelStatuses] = useState<ModelStatus[]>(
+        CHECKABLE_MODELS.map(id => ({ id, status: 'pending' }))
+    );
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -65,6 +84,42 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
     `;
 
         return `${systemInstruction}\n\nUser Query: ${userQuery}`;
+    };
+
+    const handleVerifyKeys = async () => {
+        if (!effectiveApiKey) return;
+
+        setIsVerifying(true);
+        const genAI = new GoogleGenerativeAI(effectiveApiKey);
+
+        const newStatuses: ModelStatus[] = CHECKABLE_MODELS.map(id => ({ id, status: 'loading' }));
+        setModelStatuses([...newStatuses]);
+
+        // Process sequentially to avoid rate limits on free tier
+        for (let i = 0; i < CHECKABLE_MODELS.length; i++) {
+            const modelId = CHECKABLE_MODELS[i];
+            try {
+                const model = genAI.getGenerativeModel({ model: modelId });
+                // Minimal token request to verify access
+                await model.generateContent({
+                    contents: [{ role: 'user', parts: [{ text: 'Test' }] }],
+                    generationConfig: { maxOutputTokens: 1 }
+                });
+
+                newStatuses[i] = { id: modelId, status: 'valid' };
+            } catch (error: any) {
+                let errorMsg = 'Unknown Error';
+                if (error.message?.includes('404')) errorMsg = 'Not Found (404)';
+                else if (error.message?.includes('403')) errorMsg = 'Forbidden (403)';
+                else if (error.message?.includes('429')) errorMsg = 'Quota Exceeded (429)';
+                else errorMsg = 'Failed';
+
+                newStatuses[i] = { id: modelId, status: 'invalid', error: errorMsg };
+            }
+            // Update state incrementally
+            setModelStatuses([...newStatuses]);
+        }
+        setIsVerifying(false);
     };
 
     const handleSend = async () => {
@@ -213,6 +268,48 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                                 Save
                             </button>
                         </div>
+
+                        {/* Verification Section */}
+                        <div className="max-w-3xl mx-auto mt-6 pt-4 border-t border-slate-800">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest flex items-center">
+                                    <ShieldCheck className="w-4 h-4 mr-2 text-slate-500" />
+                                    Model Access Verification
+                                </h3>
+                                <button
+                                    onClick={handleVerifyKeys}
+                                    disabled={isVerifying || !effectiveApiKey}
+                                    className="text-xs bg-slate-800 hover:bg-slate-700 text-purple-400 px-3 py-1 rounded transition-colors disabled:opacity-50"
+                                >
+                                    {isVerifying ? 'Verifying...' : 'Check Access Now'}
+                                </button>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-3">
+                                {modelStatuses.map((status) => (
+                                    <div key={status.id} className="bg-slate-950/50 p-2 rounded border border-slate-800 flex items-center justify-between">
+                                        <span className="text-xs text-slate-300 font-mono">{status.id}</span>
+                                        <div className="flex items-center">
+                                            {status.status === 'loading' && <Loader className="w-3 h-3 animate-spin text-blue-400" />}
+                                            {status.status === 'valid' && (
+                                                <div className="flex items-center text-emerald-400">
+                                                    <span className="text-[10px] mr-1">Active</span>
+                                                    <CheckCircle2 className="w-3 h-3" />
+                                                </div>
+                                            )}
+                                            {status.status === 'invalid' && (
+                                                <div className="flex items-center text-red-400" title={status.error}>
+                                                    <span className="text-[10px] mr-1">{status.error}</span>
+                                                    <XCircle className="w-3 h-3" />
+                                                </div>
+                                            )}
+                                            {status.status === 'pending' && <span className="text-[10px] text-slate-600">-</span>}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                         <div className="max-w-3xl mx-auto mt-2">
                             <span className="text-xs text-slate-500">
                                 {envApiKey ? "Default: Process Env" : "No default key found"}
