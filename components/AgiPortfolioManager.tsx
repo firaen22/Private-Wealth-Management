@@ -73,6 +73,18 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
         // 將策略轉為字串供 AI 參考
         const strategiesContext = JSON.stringify(PORTFOLIO_STRATEGIES, null, 2);
 
+        // Filter out zero/null values to distinguish between "not set" and "set to 0"
+        // This helps prevent hallucinations about default assets
+        const cleanData = JSON.parse(JSON.stringify(currentData, (key, value) => {
+            if (value === 0 || value === null || value === '' || (typeof value === 'object' && Object.keys(value).length === 0)) {
+                return undefined;
+            }
+            return value;
+        }));
+
+        // Remove empty objects that might result from recursive filtering
+        const filteredContext = JSON.stringify(cleanData, null, 2);
+
         const systemInstruction = `
     你是一位專業的私人財富 AGI 規劃師 (Proposal Architect)。
 
@@ -86,6 +98,12 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
        - **槓桿工具**：透過 Calculations 考慮是否加入保費融資來放大回報 (Premium Financing)。
 
     3. 你的任務是根據用戶的對話（如年齡、目標、風險承受度、資產狀況），推薦一個最適合的方案。
+
+    【核心原則】
+    - **誠實原則**：請只根據 "User Context" 中實際存在的數據進行分析。
+    - **避免幻想**：如果 User Context 中的數值為 0 或空，請詢問用戶相關資訊，而不要假設他們擁有這些資產。
+      - 例如：如果沒有 Property Value，就問客戶是否擁有物業。
+      - 例如：如果沒有 Budget，就問客戶預算多少。
 
     【輸出規則】
     如果用戶不僅僅是閒聊，而是表達了財務需求，請務必在回覆的最後，附上一個 JSON區塊 來描述你的建議方案。
@@ -111,7 +129,7 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
     請先用自然語言回答客戶，解釋你的分析 (包含物業套現多少、投資多少、預計回報)，然後再輸出上述 JSON。
     `;
 
-        return `${systemInstruction}\n\nUser Context (Current Portfolio Data): ${JSON.stringify(currentData)}\nUser Query: ${userQuery}`;
+        return `${systemInstruction}\n\nUser Context (Current Portfolio Data): ${filteredContext}\nUser Query: ${userQuery}`;
     };
 
     const handleVerifyKeys = async () => {

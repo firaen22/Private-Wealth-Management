@@ -47,17 +47,20 @@ const App: React.FC = () => {
   };
 
   // ... (Real-time calculation state & hook)
-  // Real-time calculation state
-  const [budget, setBudget] = useState(1000000);
-  const [cashReserve, setCashReserve] = useState(200000);
-  const [bondAlloc, setBondAlloc] = useState(3000000);
+  // Real-time calculation state - Default to 0 to avoid AI hallucination
+  const [budget, setBudget] = useState(0);
+  const [cashReserve, setCashReserve] = useState(0);
+  const [bondAlloc, setBondAlloc] = useState(0);
   const [bondYield, setBondYield] = useState(5.5);
   const [hibor, setHibor] = useState(4.15);
   const [spread, setSpread] = useState(1.3);
   const [leverageLTV, setLeverageLTV] = useState(90);
   const [handlingFee, setHandlingFee] = useState(1.0);
 
-
+  // Property State - Default to 0
+  const [propertyValue, setPropertyValue] = useState(0);
+  const [mortgageRate, setMortgageRate] = useState(3.5);
+  const [mortgageTenure, setMortgageTenure] = useState(25);
 
   // Real-time calculation hook
   const pfResult: SimulationOutput = useMemo(() => {
@@ -85,11 +88,11 @@ const App: React.FC = () => {
   const globalPortfolio = useMemo(() => {
     // 1. Property Strategy Base Data (Simulated / Default)
     const propertyStrategy = calculatePropertyStrategy({
-      propertyValue: 20000000, // Default scenario
+      propertyValue: propertyValue, // Dynamic
       mortgageLTV: 50,
-      mortgageRate: 3.5,
-      mortgageTenure: 30,
-      ownCash: 2000000,
+      mortgageRate: mortgageRate, // Dynamic
+      mortgageTenure: mortgageTenure, // Dynamic
+      ownCash: budget, // Use budget as ownCash
       reserveCashPercent: 10,
       allocationIncome: 60,
       incomeYield: 7.0,
@@ -101,12 +104,22 @@ const App: React.FC = () => {
       financing: pfResult,
       allocations: PORTFOLIO_STRATEGIES
     };
-  }, [pfResult]);
+  }, [pfResult, propertyValue, mortgageRate, mortgageTenure, budget]);
 
   const renderView = () => {
     switch (currentView) {
       case 'calculator':
-        return <MortgageCalculator onBack={() => setCurrentView('dashboard')} />;
+        return (
+          <MortgageCalculator
+            onBack={() => setCurrentView('dashboard')}
+            loanAmount={propertyValue}
+            setLoanAmount={setPropertyValue}
+            interestRate={mortgageRate}
+            setInterestRate={setMortgageRate}
+            loanTerm={mortgageTenure}
+            setLoanTerm={setMortgageTenure}
+          />
+        );
       case 'proposal':
         return (
           <ProposalGenerator

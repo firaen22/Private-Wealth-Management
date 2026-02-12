@@ -4,12 +4,24 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recha
 
 interface MortgageCalculatorProps {
   onBack: () => void;
+  loanAmount: number;
+  setLoanAmount: (val: number) => void;
+  interestRate: number;
+  setInterestRate: (val: number) => void;
+  loanTerm: number;
+  setLoanTerm: (val: number) => void;
 }
 
-const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ onBack }) => {
-  const [loanAmount, setLoanAmount] = useState<number>(5000000);
-  const [interestRate, setInterestRate] = useState<number>(3.5);
-  const [loanTerm, setLoanTerm] = useState<number>(25);
+const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
+  onBack,
+  loanAmount,
+  setLoanAmount,
+  interestRate,
+  setInterestRate,
+  loanTerm,
+  setLoanTerm
+}) => {
+  // Local state removed, using props now
 
   const calculateMortgage = () => {
     const monthlyRate = interestRate / 100 / 12;
@@ -17,7 +29,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ onBack }) => {
     const monthlyPayment =
       (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
       (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
-    
+
     const totalPayment = monthlyPayment * numberOfPayments;
     const totalInterest = totalPayment - loanAmount;
 
@@ -40,7 +52,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ onBack }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-navy-950 via-slate-900 to-navy-950 p-6 md:p-12 animate-fade-in">
       <div className="max-w-6xl mx-auto">
-        <button 
+        <button
           onClick={onBack}
           className="flex items-center text-slate-400 hover:text-gold-400 transition-colors mb-8 group"
         >
@@ -62,7 +74,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ onBack }) => {
           {/* Input Section */}
           <div className="glass-card p-8 rounded-2xl">
             <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4">Loan Parameters</h2>
-            
+
             <div className="space-y-6">
               <div>
                 <label className="block text-xs uppercase tracking-wider text-slate-400 mb-2">Property Value / Loan Amount ($)</label>
@@ -117,7 +129,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ onBack }) => {
           {/* Result Section */}
           <div className="glass-card p-8 rounded-2xl flex flex-col justify-between">
             <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4">Financial Projection</h2>
-            
+
             <div className="flex-grow flex items-center justify-center min-h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -135,7 +147,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({ onBack }) => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff' }}
                     itemStyle={{ color: '#fff' }}
                     formatter={(value: number) => `$${value.toLocaleString()}`}

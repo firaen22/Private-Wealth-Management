@@ -21,10 +21,10 @@ const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack, initialVa
   const reportRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
-    name: 'Alexandra Chen',
-    risk: 'Aggressive',
-    amount: '10000000',
-    goals: 'Capital Growth'
+    name: '',
+    risk: 'Balanced',
+    amount: '',
+    goals: ''
   });
 
   // Map AI RiskLevel to Form Risk
