@@ -8,43 +8,21 @@ import {
   ShieldCheck,
   Globe,
   Ticket,
-  Calculator,
-  Brain,
-  Infinity
+  Calculator
 } from 'lucide-react';
 import MortgageCalculator from './components/MortgageCalculator';
 import ProposalGenerator from './components/ProposalGenerator';
 import VipSystem from './components/VipSystem';
-import AgiPortfolioManager from './components/AgiPortfolioManager';
 import { calculateProjection, SimulationOutput } from './src/utils/calculations';
 
 
-type ViewState = 'dashboard' | 'calculator' | 'proposal' | 'vip' | 'agiPortfolio';
+type ViewState = 'dashboard' | 'calculator' | 'proposal' | 'vip';
 
-import { RiskLevel, PORTFOLIO_STRATEGIES } from './src/utils/portfolioLogic';
-import { calculatePropertyStrategy } from './src/utils/propertyLogic';
 
 // ...
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('dashboard');
-
-  // AI Proposal State
-  const [aiProposal, setAiProposal] = useState<{
-    riskLevel: RiskLevel;
-    budget: number;
-    description?: string;
-  } | null>(null);
-
-  const handleAutoPlan = (plan: any) => {
-    console.log("收到 AI 自動規劃指令:", plan);
-    setAiProposal({
-      riskLevel: plan.risk_level || 'Medium',
-      budget: plan.budget || 1000000,
-      description: plan.reason
-    });
-    setCurrentView('proposal');
-  };
 
   // ... (Real-time calculation state & hook)
   // Real-time calculation state - Default to 0 to avoid AI hallucination
@@ -84,28 +62,6 @@ const App: React.FC = () => {
     });
   }, [budget, cashReserve, bondAlloc, bondYield, hibor, spread, leverageLTV, handlingFee]);
 
-  // Aggregated Global Portfolio for AGI
-  const globalPortfolio = useMemo(() => {
-    // 1. Property Strategy Base Data (Simulated / Default)
-    const propertyStrategy = calculatePropertyStrategy({
-      propertyValue: propertyValue, // Dynamic
-      mortgageLTV: 50,
-      mortgageRate: mortgageRate, // Dynamic
-      mortgageTenure: mortgageTenure, // Dynamic
-      ownCash: budget, // Use budget as ownCash
-      reserveCashPercent: 10,
-      allocationIncome: 60,
-      incomeYield: 7.0,
-      hedgeYield: 5.0
-    });
-
-    return {
-      property: propertyStrategy,
-      financing: pfResult,
-      allocations: PORTFOLIO_STRATEGIES
-    };
-  }, [pfResult, propertyValue, mortgageRate, mortgageTenure, budget]);
-
   const renderView = () => {
     switch (currentView) {
       case 'calculator':
@@ -124,18 +80,10 @@ const App: React.FC = () => {
         return (
           <ProposalGenerator
             onBack={() => setCurrentView('dashboard')}
-            initialValues={aiProposal}
           />
         );
       case 'vip':
         return <VipSystem onBack={() => setCurrentView('dashboard')} />;
-      case 'agiPortfolio':
-        return (
-          <AgiPortfolioManager
-            portfolioData={globalPortfolio}
-            onApplyPlan={handleAutoPlan}
-          />
-        );
       default:
         return <Dashboard onViewChange={setCurrentView} />;
     }
@@ -254,18 +202,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-6 py-12 md:py-20 flex flex-col items-center justify-center min-h-screen">
 
-
-        {/* Top Left AGI Access - New */}
-        <div className="absolute top-8 left-8 z-20">
-          <button
-            onClick={() => onViewChange('agiPortfolio')}
-            className="flex items-center space-x-2 px-5 py-2.5 rounded-full border border-purple-500/30 bg-purple-500/5 hover:bg-purple-500/10 transition-all group backdrop-blur-sm"
-          >
-            <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
-            <Infinity className="w-4 h-4 text-purple-400" />
-            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-purple-400 group-hover:text-purple-300 transition-colors">AGI Manager</span>
-          </button>
-        </div>
 
         {/* Top Right Portal Access */}
         <div className="absolute top-8 right-8 z-20">
