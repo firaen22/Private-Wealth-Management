@@ -21,9 +21,32 @@ import { calculateProjection, SimulationOutput } from './src/utils/calculations'
 
 type ViewState = 'dashboard' | 'calculator' | 'proposal' | 'vip' | 'agiPortfolio';
 
+import { RiskLevel, PORTFOLIO_STRATEGIES } from './src/utils/portfolioLogic';
+import { calculatePropertyStrategy } from './src/utils/propertyLogic';
+
+// ...
+
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('dashboard');
 
+  // AI Proposal State
+  const [aiProposal, setAiProposal] = useState<{
+    riskLevel: RiskLevel;
+    budget: number;
+    description?: string;
+  } | null>(null);
+
+  const handleAutoPlan = (plan: any) => {
+    console.log("收到 AI 自動規劃指令:", plan);
+    setAiProposal({
+      riskLevel: plan.risk_level || 'Medium',
+      budget: plan.budget || 1000000,
+      description: plan.reason
+    });
+    setCurrentView('proposal');
+  };
+
+  // ... (Real-time calculation state & hook)
   // Real-time calculation state
   const [budget, setBudget] = useState(1000000);
   const [cashReserve, setCashReserve] = useState(200000);
@@ -33,6 +56,8 @@ const App: React.FC = () => {
   const [spread, setSpread] = useState(1.3);
   const [leverageLTV, setLeverageLTV] = useState(90);
   const [handlingFee, setHandlingFee] = useState(1.0);
+
+
 
   // Real-time calculation hook
   const pfResult: SimulationOutput = useMemo(() => {
@@ -56,16 +81,48 @@ const App: React.FC = () => {
     });
   }, [budget, cashReserve, bondAlloc, bondYield, hibor, spread, leverageLTV, handlingFee]);
 
+  // Aggregated Global Portfolio for AGI
+  const globalPortfolio = useMemo(() => {
+    // 1. Property Strategy Base Data (Simulated / Default)
+    const propertyStrategy = calculatePropertyStrategy({
+      propertyValue: 20000000, // Default scenario
+      mortgageLTV: 50,
+      mortgageRate: 3.5,
+      mortgageTenure: 30,
+      ownCash: 2000000,
+      reserveCashPercent: 10,
+      allocationIncome: 60,
+      incomeYield: 7.0,
+      hedgeYield: 5.0
+    });
+
+    return {
+      property: propertyStrategy,
+      financing: pfResult,
+      allocations: PORTFOLIO_STRATEGIES
+    };
+  }, [pfResult]);
+
   const renderView = () => {
     switch (currentView) {
       case 'calculator':
         return <MortgageCalculator onBack={() => setCurrentView('dashboard')} />;
       case 'proposal':
-        return <ProposalGenerator onBack={() => setCurrentView('dashboard')} />;
+        return (
+          <ProposalGenerator
+            onBack={() => setCurrentView('dashboard')}
+            initialValues={aiProposal}
+          />
+        );
       case 'vip':
         return <VipSystem onBack={() => setCurrentView('dashboard')} />;
       case 'agiPortfolio':
-        return <AgiPortfolioManager portfolioData={pfResult} />;
+        return (
+          <AgiPortfolioManager
+            portfolioData={globalPortfolio}
+            onApplyPlan={handleAutoPlan}
+          />
+        );
       default:
         return <Dashboard onViewChange={setCurrentView} />;
     }

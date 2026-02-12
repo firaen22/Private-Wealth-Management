@@ -3,11 +3,18 @@ import { ArrowLeft, FileText, Send, User, Shield, TrendingUp, CheckCircle, Loade
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
+import { RiskLevel } from '../src/utils/portfolioLogic';
+
 interface ProposalGeneratorProps {
   onBack: () => void;
+  initialValues?: {
+    riskLevel: RiskLevel;
+    budget: number;
+    description?: string;
+  } | null;
 }
 
-const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack }) => {
+const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack, initialValues }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -19,6 +26,28 @@ const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack }) => {
     amount: '10000000',
     goals: 'Capital Growth'
   });
+
+  // Map AI RiskLevel to Form Risk
+  const mapRiskLevel = (level: RiskLevel): string => {
+    switch (level) {
+      case 'Low': return 'Conservative';
+      case 'Medium': return 'Balanced';
+      case 'High': return 'Aggressive';
+      default: return 'Balanced';
+    }
+  };
+
+  // Auto-populate form when initialValues change
+  React.useEffect(() => {
+    if (initialValues) {
+      setFormData(prev => ({
+        ...prev,
+        risk: mapRiskLevel(initialValues.riskLevel),
+        amount: initialValues.budget.toString(),
+        goals: initialValues.description || prev.goals
+      }));
+    }
+  }, [initialValues]);
 
   const handleGenerate = () => {
     setIsGenerating(true);

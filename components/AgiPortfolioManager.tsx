@@ -23,6 +23,7 @@ const CHECKABLE_MODELS = [
 
 interface AgiPortfolioManagerProps {
     portfolioData: any;
+    onApplyPlan?: (plan: any) => void;
 }
 
 interface Message {
@@ -32,7 +33,7 @@ interface Message {
     timestamp: Date;
 }
 
-const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData }) => {
+const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData, onApplyPlan }) => {
     const [messages, setMessages] = useState<Message[]>([
         {
             id: 'welcome',
@@ -78,8 +79,13 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
     【你的能力】
     1. 你擁有以下標準投資組合策略 (Strategies):
        ${strategiesContext}
+    
+    2. 你必須考慮三個維度來提供 Total Solution：
+       - **資金來源**：透過 Property Logic 評估物業加按套現的可能性 (Refinancing)。
+       - **資產配置**：透過 Portfolio Logic 決定風險等級和基金分佈 (Risk Level)。
+       - **槓桿工具**：透過 Calculations 考慮是否加入保費融資來放大回報 (Premium Financing)。
 
-    2. 你的任務是根據用戶的對話（如年齡、目標、風險承受度），推薦一個最適合的 "RiskLevel" (Low, Medium, High) 和 "TotalBudget"。
+    3. 你的任務是根據用戶的對話（如年齡、目標、風險承受度、資產狀況），推薦一個最適合的方案。
 
     【輸出規則】
     如果用戶不僅僅是閒聊，而是表達了財務需求，請務必在回覆的最後，附上一個 JSON區塊 來描述你的建議方案。
@@ -92,14 +98,20 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
         "risk_level": "Medium",
         "budget": 1000000,
         "reason": "客戶希望平衡增長與風險..."
+      },
+      "suggested_property_action": {
+        "refi_ltv": 60,
+        "apply_to_investment": 5000000
       }
     }
     \`\`\`
+    
+    注意：如果沒有涉及物業，"suggested_property_action" 可以是 null。
 
-    請先用自然語言回答客戶，解釋你的分析，然後再輸出上述 JSON。
+    請先用自然語言回答客戶，解釋你的分析 (包含物業套現多少、投資多少、預計回報)，然後再輸出上述 JSON。
     `;
 
-        return `${systemInstruction}\n\nUser Context: ${JSON.stringify(currentData)}\nUser Query: ${userQuery}`;
+        return `${systemInstruction}\n\nUser Context (Current Portfolio Data): ${JSON.stringify(currentData)}\nUser Query: ${userQuery}`;
     };
 
     const handleVerifyKeys = async () => {
@@ -186,8 +198,9 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
 
                     if (recommendation.is_recommendation) {
                         console.log("AI 建議方案:", recommendation.suggested_plan);
-                        // TODO: 這裡可以呼叫一個函數，例如 onApplyPlan(recommendation.suggested_plan)
-                        // 這會自動將參數填入你的 ProposalGenerator 組件
+                        if (onApplyPlan) {
+                            onApplyPlan(recommendation.suggested_plan);
+                        }
                     }
                 } catch (e) {
                     console.error("Failed to parse AI recommendation", e);
