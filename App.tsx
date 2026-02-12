@@ -6,19 +6,23 @@ import {
   ArrowRight,
   LineChart,
   ShieldCheck,
-  ChevronRight,
   Globe,
   Ticket,
-  Calculator
+  Calculator,
+  Brain
 } from 'lucide-react';
 import MortgageCalculator from './components/MortgageCalculator';
 import ProposalGenerator from './components/ProposalGenerator';
 import VipSystem from './components/VipSystem';
+import AgiPortfolioManager from './components/AgiPortfolioManager';
 
-type ViewState = 'dashboard' | 'calculator' | 'proposal' | 'vip';
+
+type ViewState = 'dashboard' | 'calculator' | 'proposal' | 'vip' | 'agiPortfolio';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('dashboard');
+  // centralized state for portfolio data
+  const [portfolioData, setPortfolioData] = useState<any>({});
 
   const renderView = () => {
     switch (currentView) {
@@ -28,6 +32,8 @@ const App: React.FC = () => {
         return <ProposalGenerator onBack={() => setCurrentView('dashboard')} />;
       case 'vip':
         return <VipSystem onBack={() => setCurrentView('dashboard')} />;
+      case 'agiPortfolio':
+        return <AgiPortfolioManager portfolioData={portfolioData} />;
       default:
         return <Dashboard onViewChange={setCurrentView} />;
     }
@@ -40,13 +46,113 @@ const App: React.FC = () => {
   );
 };
 
-// Dashboard Component extracted for cleaner structure within App.tsx if preferred, 
-// or could be a separate file. Keeping it here for single-file focus on App logic + Dashboard.
 interface DashboardProps {
   onViewChange: (view: ViewState) => void;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
+
+  const menuItems = [
+    {
+      id: 'agiPortfolio',
+      label: 'AGI Portfolio Manager',
+      subLabel: 'AI Wealth Consultant',
+      description: 'AI-driven portfolio analysis and wealth management advice.',
+      icon: Brain,
+      action: () => onViewChange('agiPortfolio'),
+      iconColor: 'text-purple-400',
+      gradientFrom: 'from-purple-500',
+      gradientTo: 'to-indigo-700',
+      shadowColor: 'shadow-purple-500/20',
+      border: true
+    },
+    {
+      id: 'property',
+      label: '物業保值及收息倉方案',
+      subLabel: 'Property Appreciation Solution & Funds',
+      description: 'Advanced mortgage calculators and fund appreciation projection tools for real estate assets.',
+      icon: Building2,
+      action: () => window.location.href = 'https://firaen22.github.io/TMP2-mortgage-with-report/',
+      iconColor: 'text-white',
+      gradientFrom: 'from-blue-500',
+      gradientTo: 'to-blue-700',
+      shadowColor: 'shadow-blue-500/20',
+      external: true,
+      buttonText: 'Access Tool'
+    },
+    {
+      id: 'proposal',
+      label: '私人財富建議書系統',
+      subLabel: 'Proposal Generator',
+      description: 'Generate bespoke investment strategies and PDF proposals tailored to client risk profiles.',
+      icon: FileText,
+      action: () => window.location.href = 'https://proposal-genertor-v8.vercel.app/',
+      iconColor: 'text-slate-900',
+      gradientFrom: 'from-gold-400',
+      gradientTo: 'to-gold-600',
+      shadowColor: 'shadow-gold-500/20',
+      external: true,
+      buttonText: 'Generate Now',
+      className: 'border-t border-gold-500/20'
+    },
+    {
+      id: 'crs',
+      label: '共同匯報標準方案',
+      subLabel: 'CRS solutions',
+      description: 'Common Reporting Standard compliance tools and automated proposal generation for global entities.',
+      icon: Globe,
+      action: () => window.location.href = 'https://firaen22.github.io/CRS-proposal-generator/',
+      iconColor: 'text-white',
+      gradientFrom: 'from-emerald-500',
+      gradientTo: 'to-emerald-700',
+      shadowColor: 'shadow-emerald-500/20',
+      external: true,
+      buttonText: 'Access Portal'
+    },
+    {
+      id: 'fund-chart',
+      label: '基金圖表構建器',
+      subLabel: 'Fund Chart Builder',
+      description: 'Visualize fund performance and generate comparison charts for investment analysis.',
+      icon: LineChart,
+      action: () => window.open('https://firaen22.github.io/Fund-chart-builder/', '_blank'),
+      iconColor: 'text-white',
+      gradientFrom: 'from-purple-500',
+      gradientTo: 'to-purple-700',
+      shadowColor: 'shadow-purple-500/20',
+      external: true,
+      buttonText: 'View Charts'
+    },
+    {
+      id: 'voucher',
+      label: '保費現金券計算機',
+      subLabel: 'Premium Voucher Calculator',
+      description: 'Calculate premium vouchers and optimize payment strategies for insurance plans.',
+      icon: Ticket,
+      action: () => window.open('https://firaen22.github.io/premium-planner/', '_blank'),
+      iconColor: 'text-white',
+      gradientFrom: 'from-rose-500',
+      gradientTo: 'to-rose-700',
+      shadowColor: 'shadow-rose-500/20',
+      external: true,
+      buttonText: 'Calculate Now'
+    },
+    {
+      id: 'financing',
+      label: '保費融資計算機',
+      subLabel: 'Premium Financing Calculator',
+      description: 'Calculate premium financing details and optimize leverage strategies.',
+      icon: Calculator,
+      action: () => window.open('https://premium-financing-calculator.vercel.app/', '_blank'),
+      iconColor: 'text-white',
+      gradientFrom: 'from-cyan-500',
+      gradientTo: 'to-cyan-700',
+      shadowColor: 'shadow-cyan-500/20',
+      external: true,
+      buttonText: 'Calculate Now'
+    }
+  ];
+
   return (
     <div className="min-h-screen relative overflow-hidden bg-slate-950">
       {/* Background Ambience */}
@@ -82,163 +188,33 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl">
+          {menuItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={item.action}
+              className={`group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between ${item.className || ''}`}
+            >
+              <div className={`absolute inset-0 bg-gradient-to-b ${item.gradientFrom}/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
 
-          {/* Card 1: Property */}
-          <button
-            onClick={() => window.location.href = 'https://firaen22.github.io/TMP2-mortgage-with-report/'}
-            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-500">
-                <Building2 className="w-7 h-7 text-white" />
+              <div className="relative z-10">
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradientFrom} ${item.gradientTo} flex items-center justify-center mb-6 ${item.shadowColor} group-hover:scale-110 transition-transform duration-500`}>
+                  <item.icon className={`w-7 h-7 ${item.iconColor}`} />
+                </div>
+                <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">{item.label}</h3>
+                <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
+                  {item.subLabel}
+                </p>
+                <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  {item.description}
+                </p>
               </div>
-              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">物業保值及收息倉方案</h3>
-              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                Property Appreciation<br />Solution & Funds
-              </p>
-              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-                Advanced mortgage calculators and fund appreciation projection tools for real estate assets.
-              </p>
-            </div>
 
-            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
-              <span>Access Tool</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
-            </div>
-          </button>
-
-          {/* Card 2: Proposal */}
-          <button
-            onClick={() => window.location.href = 'https://proposal-genertor-v8.vercel.app/'}
-            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between border-t border-gold-500/20"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-gold-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center mb-6 shadow-lg shadow-gold-500/20 group-hover:scale-110 transition-transform duration-500">
-                <FileText className="w-7 h-7 text-slate-900" />
+              <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
+                <span>{item.buttonText || 'Enter'}</span>
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
               </div>
-              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">私人財富建議書系統</h3>
-              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                Proposal Generator
-              </p>
-              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-                Generate bespoke investment strategies and PDF proposals tailored to client risk profiles.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
-              <span>Generate Now</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
-            </div>
-          </button>
-
-          {/* Card 4: CRS */}
-          <button
-            onClick={() => window.location.href = 'https://firaen22.github.io/CRS-proposal-generator/'}
-            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform duration-500">
-                <Globe className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">共同匯報標準方案</h3>
-              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                CRS solutions
-              </p>
-              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-                Common Reporting Standard compliance tools and automated proposal generation for global entities.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
-              <span>Access Portal</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
-            </div>
-          </button>
-
-          {/* Card: Fund Chart Builder */}
-          <button
-            onClick={() => window.open('https://firaen22.github.io/Fund-chart-builder/', '_blank')}
-            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center mb-6 shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform duration-500">
-                <LineChart className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">基金圖表構建器</h3>
-              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                Fund Chart Builder
-              </p>
-              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-                Visualize fund performance and generate comparison charts for investment analysis.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
-              <span>View Charts</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
-            </div>
-          </button>
-
-          {/* Card: Premium Voucher Calculator */}
-          <button
-            onClick={() => window.open('https://firaen22.github.io/premium-planner/', '_blank')}
-            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center mb-6 shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform duration-500">
-                <Ticket className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">保費現金券計算機</h3>
-              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                Premium Voucher Calculator
-              </p>
-              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-                Calculate premium vouchers and optimize payment strategies for insurance plans.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
-              <span>Calculate Now</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
-            </div>
-          </button>
-
-          {/* Card: Premium Financing Calculator */}
-          <button
-            onClick={() => window.open('https://premium-financing-calculator.vercel.app/', '_blank')}
-            className="group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center mb-6 shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform duration-500">
-                <Calculator className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">保費融資計算機</h3>
-              <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
-                Premium Financing Calculator
-              </p>
-              <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-                Calculate premium financing details and optimize leverage strategies.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
-              <span>Calculate Now</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
-            </div>
-          </button>
-
+            </button>
+          ))}
         </div>
 
         {/* Footer Indicators */}
