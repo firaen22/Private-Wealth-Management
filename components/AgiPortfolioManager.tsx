@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { Send, User, Bot, Loader, Brain, LayoutDashboard, PieChart, TrendingUp, AlertTriangle, Settings, Check } from 'lucide-react';
+import { Send, User, Bot, Loader, Brain, LayoutDashboard, PieChart, TrendingUp, AlertTriangle, Settings, Check, Infinity } from 'lucide-react';
 
 interface AgiPortfolioManagerProps {
     portfolioData: any;
@@ -137,7 +137,7 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                 {/* Header */}
                 <header className="h-16 border-b border-slate-800 flex items-center justify-between px-6 bg-slate-900/50 backdrop-blur-md">
                     <div className="flex items-center">
-                        <Brain className="w-6 h-6 text-purple-500 mr-3" />
+                        <Infinity className="w-6 h-6 text-purple-500 mr-3" />
                         <div>
                             <h1 className="text-lg font-serif font-medium text-white">AGI Portfolio Manager</h1>
                             <p className="text-xs text-slate-400 uppercase tracking-wider">AI Private Wealth Consultant</p>
@@ -193,7 +193,7 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                                 {/* Avatar */}
                                 <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-1 mx-2 ${msg.role === 'user' ? 'bg-slate-700' : 'bg-purple-600'
                                     }`}>
-                                    {msg.role === 'user' ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
+                                    {msg.role === 'user' ? <User className="w-4 h-4 text-white" /> : <Infinity className="w-4 h-4 text-white" />}
                                 </div>
 
                                 {/* Message Bubble */}
@@ -215,7 +215,7 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                         <div className="flex justify-start">
                             <div className="flex max-w-[80%] flex-row">
                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center mt-1 mx-2">
-                                    <Bot className="w-4 h-4 text-white" />
+                                    <Infinity className="w-4 h-4 text-white" />
                                 </div>
                                 <div className="p-4 rounded-2xl bg-purple-900/20 border border-purple-500/30 text-slate-200 rounded-tl-none flex items-center">
                                     <Loader className="w-4 h-4 animate-spin mr-2 text-purple-400" />

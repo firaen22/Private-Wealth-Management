@@ -9,7 +9,8 @@ import {
   Globe,
   Ticket,
   Calculator,
-  Brain
+  Brain,
+  Infinity
 } from 'lucide-react';
 import MortgageCalculator from './components/MortgageCalculator';
 import ProposalGenerator from './components/ProposalGenerator';
@@ -53,19 +54,7 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
   const menuItems = [
-    {
-      id: 'agiPortfolio',
-      label: 'AGI Portfolio Manager',
-      subLabel: 'AI Wealth Consultant',
-      description: 'AI-driven portfolio analysis and wealth management advice.',
-      icon: Brain,
-      action: () => onViewChange('agiPortfolio'),
-      iconColor: 'text-purple-400',
-      gradientFrom: 'from-purple-500',
-      gradientTo: 'to-indigo-700',
-      shadowColor: 'shadow-purple-500/20',
-      border: true
-    },
+
     {
       id: 'property',
       label: '物業保值及收息倉方案',
@@ -163,6 +152,19 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
 
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-6 py-12 md:py-20 flex flex-col items-center justify-center min-h-screen">
+
+
+        {/* Top Left AGI Access - New */}
+        <div className="absolute top-8 left-8 z-20">
+          <button
+            onClick={() => onViewChange('agiPortfolio')}
+            className="flex items-center space-x-2 px-5 py-2.5 rounded-full border border-purple-500/30 bg-purple-500/5 hover:bg-purple-500/10 transition-all group backdrop-blur-sm"
+          >
+            <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
+            <Infinity className="w-4 h-4 text-purple-400" />
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-purple-400 group-hover:text-purple-300 transition-colors">AGI Manager</span>
+          </button>
+        </div>
 
         {/* Top Right Portal Access */}
         <div className="absolute top-8 right-8 z-20">
