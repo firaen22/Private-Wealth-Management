@@ -26,6 +26,8 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
     const [isLoading, setIsLoading] = useState(false);
     const [userApiKey, setUserApiKey] = useState('');
     const [showSettings, setShowSettings] = useState(false);
+    const [selectedModel, setSelectedModel] = useState('gemini-2.0-flash');
+    const [customModelId, setCustomModelId] = useState('');
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -95,7 +97,8 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
 
         try {
             const genAI = new GoogleGenerativeAI(effectiveApiKey);
-            const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+            const modelName = selectedModel === 'custom' ? customModelId : selectedModel;
+            const model = genAI.getGenerativeModel({ model: modelName });
             const prompt = generatePrompt(input, portfolioData);
 
             const result = await model.generateContent(prompt);
@@ -176,6 +179,32 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                                     className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none"
                                 />
                             </div>
+                            <div className="w-1/3">
+                                <label className="block text-xs text-slate-400 mb-1 uppercase tracking-wider">AI Model</label>
+                                <select
+                                    value={selectedModel}
+                                    onChange={(e) => setSelectedModel(e.target.value)}
+                                    className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none appearance-none"
+                                >
+                                    <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+                                    <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                                    <option value="gemini-pro">Gemini Pro (Legacy)</option>
+                                    <option value="custom">Custom Model ID...</option>
+                                </select>
+                            </div>
+                            {selectedModel === 'custom' && (
+                                <div className="w-1/3 animate-in slide-in-from-left-2">
+                                    <label className="block text-xs text-slate-400 mb-1 uppercase tracking-wider">Model ID</label>
+                                    <input
+                                        type="text"
+                                        value={customModelId}
+                                        onChange={(e) => setCustomModelId(e.target.value)}
+                                        placeholder="e.g. gemini-1.5-pro-latest"
+                                        className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none"
+                                    />
+                                </div>
+                            )}
                             <button
                                 onClick={() => setShowSettings(false)}
                                 className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors flex items-center"
