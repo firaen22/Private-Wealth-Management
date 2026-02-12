@@ -9,6 +9,8 @@ interface ModelStatus {
 }
 
 const CHECKABLE_MODELS = [
+    'gemini-3.0-pro',
+    'gemini-3.0-flash',
     'gemini-2.5-pro',
     'gemini-2.5-flash',
     'gemini-2.0-flash',
@@ -244,6 +246,8 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                                     onChange={(e) => setSelectedModel(e.target.value)}
                                     className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none appearance-none"
                                 >
+                                    <option value="gemini-3.0-pro">Gemini 3.0 Pro (Preview)</option>
+                                    <option value="gemini-3.0-flash">Gemini 3.0 Flash (Preview)</option>
                                     <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
                                     <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
                                     <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
