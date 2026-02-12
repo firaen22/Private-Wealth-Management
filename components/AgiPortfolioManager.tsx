@@ -42,14 +42,24 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
     const effectiveApiKey = userApiKey || envApiKey;
 
     const generatePrompt = (userQuery: string, data: any) => {
+        // Safe access to data properties
+        const finalEquity = data.finalNetEquity ? Math.round(data.finalNetEquity).toLocaleString() : 'N/A';
+        const roi = data.roi ? data.roi.toFixed(2) + '%' : 'N/A';
+
         // System Instruction & Persona
         const systemInstruction = `
     你是一個資深的 AGI 財富管理專家，負責為高淨值客戶提供 Total Solution。
+    
+    Current Portfolio Simulation Results:
+    - Final Net Equity (Year 30): ${finalEquity}
+    - Total ROI: ${roi}
+    - Monthly Net Cashflow: ${data.monthlyNetCashflow ? Math.round(data.monthlyNetCashflow).toLocaleString() : 'N/A'}
+    
     你需要綜合分析客戶目前的物業貸款狀況、保費融資槓桿、以及資產配置比例。
     請根據傳入的 JSON 數據提供具體的、跨產品的優化建議，例如：是否應該透過加按物業來增加保費融資的投入以對沖利率風險。
     
-    Current Portfolio Data:
-    ${JSON.stringify(data, null, 2)}
+    Detailed Projection Data (First 5 Years & Year 30):
+    ${JSON.stringify(data.projectionData ? [...data.projectionData.slice(0, 5), data.projectionData[30]] : data, null, 2)}
     `;
 
         return `${systemInstruction}\n\nUser Query: ${userQuery}`;

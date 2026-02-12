@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Building2,
   FileText,
@@ -16,14 +16,45 @@ import MortgageCalculator from './components/MortgageCalculator';
 import ProposalGenerator from './components/ProposalGenerator';
 import VipSystem from './components/VipSystem';
 import AgiPortfolioManager from './components/AgiPortfolioManager';
+import { calculateProjection, SimulationOutput } from './src/utils/calculations';
 
 
 type ViewState = 'dashboard' | 'calculator' | 'proposal' | 'vip' | 'agiPortfolio';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('dashboard');
-  // centralized state for portfolio data
-  const [portfolioData, setPortfolioData] = useState<any>({});
+
+  // Real-time calculation state
+  const [budget, setBudget] = useState(1000000);
+  const [cashReserve, setCashReserve] = useState(200000);
+  const [bondAlloc, setBondAlloc] = useState(3000000);
+  const [bondYield, setBondYield] = useState(5.5);
+  const [hibor, setHibor] = useState(4.15);
+  const [spread, setSpread] = useState(1.3);
+  const [leverageLTV, setLeverageLTV] = useState(90);
+  const [handlingFee, setHandlingFee] = useState(1.0);
+
+  // Real-time calculation hook
+  const pfResult: SimulationOutput = useMemo(() => {
+    return calculateProjection({
+      budget,
+      cashReserve,
+      bondAlloc,
+      bondYield,
+      hibor,
+      cofRate: 5.0,
+      interestBasis: 'hibor',
+      spread,
+      leverageLTV,
+      capRate: 9.0,
+      handlingFee,
+      fundSource: 'cash', // Simplified default
+      unlockedCash: 0,
+      effectiveMortgageRate: 0,
+      monthlyMortgagePmt: 0,
+      mortgageTenor: 30
+    });
+  }, [budget, cashReserve, bondAlloc, bondYield, hibor, spread, leverageLTV, handlingFee]);
 
   const renderView = () => {
     switch (currentView) {
@@ -34,7 +65,7 @@ const App: React.FC = () => {
       case 'vip':
         return <VipSystem onBack={() => setCurrentView('dashboard')} />;
       case 'agiPortfolio':
-        return <AgiPortfolioManager portfolioData={portfolioData} />;
+        return <AgiPortfolioManager portfolioData={pfResult} />;
       default:
         return <Dashboard onViewChange={setCurrentView} />;
     }
