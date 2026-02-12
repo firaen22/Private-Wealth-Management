@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { Send, User, Bot, Loader, Brain, LayoutDashboard, PieChart, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Send, User, Bot, Loader, Brain, LayoutDashboard, PieChart, TrendingUp, AlertTriangle, Settings, Check } from 'lucide-react';
 
 interface AgiPortfolioManagerProps {
     portfolioData: any;
@@ -148,14 +148,14 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                         className={`p-2 rounded-lg transition-colors ${showSettings ? 'bg-purple-500/20 text-purple-400' : 'hover:bg-slate-800 text-slate-400'}`}
                         title="API Settings"
                     >
-                        <AlertTriangle className="w-5 h-5" />
+                        <Settings className="w-5 h-5" />
                     </button>
                 </header>
 
                 {/* API Key Settings Panel */}
                 {showSettings && (
                     <div className="bg-slate-900/80 border-b border-slate-800 p-4 animate-in slide-in-from-top-2">
-                        <div className="max-w-3xl mx-auto flex items-center space-x-4">
+                        <div className="max-w-3xl mx-auto flex items-end space-x-4">
                             <div className="flex-1">
                                 <label className="block text-xs text-slate-400 mb-1 uppercase tracking-wider">Custom Gemini API Key</label>
                                 <input
@@ -166,11 +166,18 @@ const AgiPortfolioManager: React.FC<AgiPortfolioManagerProps> = ({ portfolioData
                                     className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none"
                                 />
                             </div>
-                            <div className="pt-5">
-                                <span className="text-xs text-slate-500">
-                                    {envApiKey ? "Default: Process Env" : "No default key found"}
-                                </span>
-                            </div>
+                            <button
+                                onClick={() => setShowSettings(false)}
+                                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors flex items-center"
+                            >
+                                <Check className="w-4 h-4 mr-2" />
+                                Save
+                            </button>
+                        </div>
+                        <div className="max-w-3xl mx-auto mt-2">
+                            <span className="text-xs text-slate-500">
+                                {envApiKey ? "Default: Process Env" : "No default key found"}
+                            </span>
                         </div>
                     </div>
                 )}
