@@ -153,7 +153,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       subLabel: 'Fund Chart Builder',
       description: 'Visualize fund performance and generate comparison charts for investment analysis.',
       icon: LineChart,
-      action: () => window.open('https://firaen22.github.io/Fund-chart-builder/', '_blank'),
+      action: () => window.open('https://fund-chart-builder.vercel.app/', '_blank'),
       iconColor: 'text-white',
       gradientFrom: 'from-purple-500',
       gradientTo: 'to-purple-700',
