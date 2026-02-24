@@ -54,7 +54,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
       <div className="max-w-6xl mx-auto">
         <button
           onClick={onBack}
-          className="flex items-center text-slate-400 hover:text-gold-400 transition-colors mb-8 group"
+          className="flex items-center text-slate-400 hover:text-gold-400 transition-all active:scale-95 mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
           <span className="uppercase tracking-widest text-sm font-semibold">Back to Dashboard</span>
@@ -72,7 +72,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input Section */}
-          <div className="glass-card p-8 rounded-2xl">
+          <div className="glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-2xl p-8 rounded-2xl">
             <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4">Loan Parameters</h2>
 
             <div className="space-y-6">
@@ -84,7 +84,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
                     type="number"
                     value={loanAmount}
                     onChange={(e) => setLoanAmount(Number(e.target.value))}
-                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/50 transition-all"
+                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-gold-500/50 focus:ring-2 focus:ring-gold-500/30 transition-all transition-shadow"
                   />
                 </div>
               </div>
@@ -98,7 +98,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
                     step="0.1"
                     value={interestRate}
                     onChange={(e) => setInterestRate(Number(e.target.value))}
-                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/50 transition-all"
+                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-gold-500/50 focus:ring-2 focus:ring-gold-500/30 transition-all transition-shadow"
                   />
                 </div>
               </div>
@@ -127,7 +127,7 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
           </div>
 
           {/* Result Section */}
-          <div className="glass-card p-8 rounded-2xl flex flex-col justify-between">
+          <div className="glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-2xl p-8 rounded-2xl flex flex-col justify-between">
             <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4">Financial Projection</h2>
 
             <div className="flex-grow flex items-center justify-center min-h-[250px]">

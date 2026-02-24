@@ -113,7 +113,7 @@ const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack, initialVa
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Form Side */}
-          <div className="md:col-span-1 glass-card p-6 rounded-2xl h-fit">
+          <div className="md:col-span-1 glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 p-6 rounded-2xl h-fit">
             <h3 className="text-lg font-serif text-white mb-6 flex items-center">
               <User className="w-5 h-5 mr-2 text-gold-500" />
               Client Profile
@@ -154,7 +154,7 @@ const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack, initialVa
               <button
                 onClick={handleGenerate}
                 disabled={isGenerating}
-                className="w-full mt-4 bg-gradient-to-r from-gold-600 to-gold-500 text-slate-950 font-bold py-3 rounded-lg hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-all flex justify-center items-center"
+                className="w-full mt-4 bg-gradient-to-r from-gold-600 to-gold-500 text-slate-950 font-bold py-3 rounded-lg hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] active:scale-[0.98] hover:-translate-y-0.5 transition-all flex justify-center items-center"
               >
                 {isGenerating ? <Loader2 className="w-5 h-5 animate-spin" /> : 'GENERATE PROPOSAL'}
               </button>
@@ -164,23 +164,23 @@ const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack, initialVa
           {/* Preview Side */}
           <div className="md:col-span-2 space-y-6">
             {!generated && !isGenerating && (
-              <div className="h-full min-h-[400px] glass-card rounded-2xl flex flex-col items-center justify-center text-slate-500 border-dashed border-2 border-slate-800">
+              <div className="h-full min-h-[400px] glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col items-center justify-center text-slate-500 border-dashed border-2 border-slate-800">
                 <FileText className="w-16 h-16 mb-4 opacity-20" />
                 <p>Fill in client details to generate a strategy</p>
               </div>
             )}
 
             {isGenerating && (
-              <div className="h-full min-h-[400px] glass-card rounded-2xl flex flex-col items-center justify-center text-gold-500">
+              <div className="h-full min-h-[400px] glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col items-center justify-center text-gold-500 animate-in fade-in duration-500">
                 <Loader2 className="w-16 h-16 mb-6 animate-spin" />
-                <p className="font-serif text-xl animate-pulse">Analyzing Market Data...</p>
-                <p className="text-slate-500 text-sm mt-2">Constructing portfolio allocation</p>
+                <p className="font-serif text-xl animate-pulse duration-1000">Analyzing Market Data...</p>
+                <p className="text-slate-500 text-sm mt-2 animate-pulse duration-1000 delay-150">Constructing portfolio allocation</p>
               </div>
             )}
 
             {generated && !isGenerating && (
               <div className="animate-fade-in space-y-6">
-                <div ref={reportRef} className="glass-card p-8 rounded-2xl relative overflow-hidden">
+                <div ref={reportRef} className="glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 p-8 rounded-2xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                     <FileText className="w-32 h-32 text-white" />
                   </div>
@@ -237,7 +237,7 @@ const ProposalGenerator: React.FC<ProposalGeneratorProps> = ({ onBack, initialVa
                     <button
                       onClick={handleExportPDF}
                       disabled={isExporting}
-                      className="flex items-center px-6 py-2 bg-white text-slate-900 rounded-full font-semibold text-sm hover:bg-slate-200 transition-colors disabled:opacity-50"
+                      className="flex items-center px-6 py-2 bg-white text-slate-900 rounded-full font-semibold text-sm hover:bg-slate-200 active:scale-[0.98] hover:-translate-y-0.5 transition-all disabled:opacity-50"
                     >
                       {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
                       {isExporting ? 'Exporting...' : 'Export PDF'}

@@ -195,8 +195,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
     <div className="min-h-screen relative overflow-hidden bg-slate-950">
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-gold-600/10 rounded-full blur-[100px]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }}></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-gold-600/10 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '12s' }}></div>
       </div>
 
       {/* Main Content */}
@@ -207,7 +207,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         <div className="absolute top-8 right-8 z-20">
           <button
             onClick={() => window.location.href = 'https://insureflow-lite.vercel.app/'}
-            className="flex items-center space-x-2 px-5 py-2.5 rounded-full border border-gold-500/30 bg-gold-500/5 hover:bg-gold-500/10 transition-all group backdrop-blur-sm"
+            className="flex items-center space-x-2 px-5 py-2.5 rounded-full border border-gold-500/30 bg-gold-500/5 hover:bg-gold-500/10 transition-all duration-300 active:scale-[0.98] group backdrop-blur-sm"
           >
             <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></div>
             <Users className="w-4 h-4 text-gold-400" />
@@ -231,7 +231,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
             <button
               key={item.id}
               onClick={item.action}
-              className={`group relative h-[400px] text-left p-8 glass-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col justify-between ${item.className || ''}`}
+              className={`group relative h-[400px] text-left p-8 glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] active:scale-[0.98] flex flex-col justify-between ${item.className || ''}`}
             >
               <div className={`absolute inset-0 bg-gradient-to-b ${item.gradientFrom}/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
 
