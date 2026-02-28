@@ -200,6 +200,21 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       external: true,
       buttonText: 'Calculate Now',
       size: 'normal'
+    },
+    {
+      id: 'market-index',
+      label: '市場指數監控',
+      subLabel: 'Market Index Monitor',
+      description: 'Track real-time global market indices and financial data performance.',
+      icon: BarChart3,
+      action: () => window.open('https://marketview-index.vercel.app/', '_blank'),
+      iconColor: 'text-white',
+      gradientFrom: 'from-fuchsia-500',
+      gradientTo: 'to-purple-600',
+      shadowColor: 'shadow-fuchsia-500/20',
+      external: true,
+      buttonText: 'View Markets',
+      size: 'large'
     }
   ];
 
