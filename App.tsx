@@ -192,11 +192,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-slate-950">
+    <div className="min-h-screen relative overflow-hidden bg-black text-slate-200">
       {/* Background Ambience */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }}></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-gold-600/10 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '12s' }}></div>
+      {/* Background Ambience */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none color-dodge">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan-600/20 rounded-full pulse-glow"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/15 rounded-full pulse-glow" style={{ animationDelay: '2s', animationDuration: '6s' }}></div>
       </div>
 
       {/* Main Content */}
@@ -207,20 +208,20 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         <div className="absolute top-8 right-8 z-20">
           <button
             onClick={() => window.location.href = 'https://insureflow-lite.vercel.app/'}
-            className="flex items-center space-x-2 px-5 py-2.5 rounded-full border border-gold-500/30 bg-gold-500/5 hover:bg-gold-500/10 transition-all duration-300 active:scale-[0.98] group backdrop-blur-sm"
+            className="flex items-center space-x-2 px-6 py-2.5 rounded-full neon-button group"
           >
-            <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></div>
-            <Users className="w-4 h-4 text-gold-400" />
-            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-gold-400 group-hover:text-gold-300 transition-colors">VIP Portal Login</span>
+            <div className="w-2 h-2 rounded-full bg-cyan-400 group-hover:bg-white animate-pulse"></div>
+            <Users className="w-4 h-4" />
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase">VIP Portal Login</span>
           </button>
         </div>
 
         {/* Header Section */}
-        <header className="text-center mb-16 animate-fade-in-up">
-          <h1 className="text-4xl md:text-6xl font-serif font-medium text-white mb-2 tracking-tight">
+        <header className="text-center mb-16 animate-fade-in-up relative z-10">
+          <h1 className="text-4xl md:text-6xl font-serif font-medium text-white mb-2 tracking-tight text-glow">
             私人財富管理
           </h1>
-          <h2 className="text-sm md:text-lg text-slate-400 tracking-[0.3em] font-light uppercase border-t border-slate-800 pt-4 mt-4 inline-block">
+          <h2 className="text-sm md:text-lg text-slate-400 tracking-[0.3em] font-light uppercase pt-4 mt-4 inline-block neon-underline">
             Private Wealth Management
           </h2>
         </header>
@@ -231,24 +232,31 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
             <button
               key={item.id}
               onClick={item.action}
-              className={`group relative h-[400px] text-left p-8 glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] active:scale-[0.98] flex flex-col justify-between ${item.className || ''}`}
+              className={`group relative h-[400px] text-left p-8 glass-light-panel spotlight-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(0,255,204,0.15)] active:scale-[0.98] flex flex-col justify-between overflow-hidden ${item.className || ''}`}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+              }}
             >
               <div className={`absolute inset-0 bg-gradient-to-b ${item.gradientFrom}/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
 
-              <div className="relative z-10">
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradientFrom} ${item.gradientTo} flex items-center justify-center mb-6 ${item.shadowColor} group-hover:scale-110 transition-transform duration-500`}>
-                  <item.icon className={`w-7 h-7 ${item.iconColor}`} />
+              <div className="relative z-10 mix-blend-screen">
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradientFrom} ${item.gradientTo} flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,255,255,0.2)] group-hover:scale-110 transition-transform duration-500 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]`}>
+                  <item.icon className={`w-7 h-7 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]`} />
                 </div>
-                <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap">{item.label}</h3>
-                <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed">
+                <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap text-glow">{item.label}</h3>
+                <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed group-hover:text-cyan-200 transition-colors">
                   {item.subLabel}
                 </p>
-                <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
+                <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0 group-hover:text-slate-200">
                   {item.description}
                 </p>
               </div>
 
-              <div className="relative z-10 flex items-center text-gold-400 text-sm font-semibold tracking-wider uppercase">
+              <div className="relative z-10 flex items-center text-cyan-400 group-hover:text-white group-hover:text-glow-accent text-sm font-semibold tracking-wider uppercase transition-all duration-300">
                 <span>{item.buttonText || 'Enter'}</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
               </div>
@@ -257,14 +265,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         </div>
 
         {/* Footer Indicators */}
-        <div className="mt-20 flex space-x-12 text-slate-500 text-xs tracking-widest uppercase">
-          <div className="flex items-center">
-            <ShieldCheck className="w-4 h-4 mr-2 text-gold-500" />
-            Bank Grade Security
+        <div className="mt-20 flex space-x-12 text-slate-500 text-xs tracking-widest uppercase z-10">
+          <div className="flex items-center group cursor-default">
+            <ShieldCheck className="w-4 h-4 mr-2 text-cyan-500 group-hover:text-cyan-300 transition-colors drop-shadow-[0_0_5px_rgba(0,255,204,0.5)]" />
+            <span className="group-hover:text-slate-300 transition-colors">Bank Grade Security</span>
           </div>
-          <div className="flex items-center">
-            <LineChart className="w-4 h-4 mr-2 text-gold-500" />
-            Real-time Analytics
+          <div className="flex items-center group cursor-default">
+            <LineChart className="w-4 h-4 mr-2 text-cyan-500 group-hover:text-cyan-300 transition-colors drop-shadow-[0_0_5px_rgba(0,255,204,0.5)]" />
+            <span className="group-hover:text-slate-300 transition-colors">Real-time Analytics</span>
           </div>
         </div>
       </div>

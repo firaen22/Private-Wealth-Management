@@ -50,63 +50,77 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
   const COLORS = ['#94a3b8', '#eab308']; // Slate-400, Gold-500
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-navy-950 via-slate-900 to-navy-950 p-6 md:p-12 animate-fade-in">
+    <div className="min-h-screen bg-black text-slate-200 p-6 md:p-12 animate-fade-in relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none color-dodge">
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-cyan-600/10 rounded-full pulse-glow"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/10 rounded-full pulse-glow" style={{ animationDelay: '2s', animationDuration: '7s' }}></div>
+      </div>
       <div className="max-w-6xl mx-auto">
         <button
           onClick={onBack}
-          className="flex items-center text-slate-400 hover:text-gold-400 transition-all active:scale-95 mb-8 group"
+          className="relative z-10 flex items-center text-cyan-400 hover:text-white hover:text-glow-accent transition-all active:scale-95 mb-8 group"
         >
-          <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform drop-shadow-[0_0_8px_rgba(0,255,204,0.6)]" />
           <span className="uppercase tracking-widest text-sm font-semibold">Back to Dashboard</span>
         </button>
 
-        <div className="flex items-center space-x-4 mb-10">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-gold-500/20 to-transparent border border-gold-500/20">
-            <Calculator className="w-8 h-8 text-gold-400" />
+        <div className="relative z-10 flex items-center space-x-4 mb-10">
+          <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-500/30 shadow-[0_0_15px_rgba(0,255,204,0.2)]">
+            <Calculator className="w-8 h-8 text-cyan-400 drop-shadow-[0_0_8px_rgba(0,255,204,0.8)]" />
           </div>
           <div>
-            <h1 className="text-3xl font-serif text-white tracking-wide">Property Appreciation Solution</h1>
-            <p className="text-slate-400 text-sm tracking-widest uppercase mt-1">Investment & Mortgage Analysis</p>
+            <h1 className="text-3xl font-serif text-white tracking-wide text-glow">Property Appreciation Solution</h1>
+            <p className="text-cyan-200/70 text-sm tracking-widest uppercase mt-1">Investment & Mortgage Analysis</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
           {/* Input Section */}
-          <div className="glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-2xl p-8 rounded-2xl">
-            <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4">Loan Parameters</h2>
+          <div
+            className="glass-light-panel spotlight-card shadow-2xl p-8 rounded-2xl"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+              e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+            }}
+          >
+            <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4 text-glow">Loan Parameters</h2>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-xs uppercase tracking-wider text-slate-400 mb-2">Property Value / Loan Amount ($)</label>
+                <label className="block text-xs uppercase tracking-wider text-cyan-200/70 mb-2">Property Value / Loan Amount ($)</label>
                 <div className="relative">
-                  <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gold-500" />
+                  <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-500 drop-shadow-[0_0_5px_rgba(0,255,204,0.5)]" />
                   <input
                     type="number"
                     value={loanAmount}
                     onChange={(e) => setLoanAmount(Number(e.target.value))}
-                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-gold-500/50 focus:ring-2 focus:ring-gold-500/30 transition-all transition-shadow"
+                    className="w-full bg-black/40 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400/80 focus:ring-1 focus:ring-cyan-500/50 focus:shadow-[0_0_15px_rgba(0,255,204,0.2)] transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs uppercase tracking-wider text-slate-400 mb-2">Interest Rate (%)</label>
+                <label className="block text-xs uppercase tracking-wider text-cyan-200/70 mb-2">Interest Rate (%)</label>
                 <div className="relative">
-                  <Percent className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gold-500" />
+                  <Percent className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-500 drop-shadow-[0_0_5px_rgba(0,255,204,0.5)]" />
                   <input
                     type="number"
                     step="0.1"
                     value={interestRate}
                     onChange={(e) => setInterestRate(Number(e.target.value))}
-                    className="w-full bg-slate-950/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-gold-500/50 focus:ring-2 focus:ring-gold-500/30 transition-all transition-shadow"
+                    className="w-full bg-black/40 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400/80 focus:ring-1 focus:ring-cyan-500/50 focus:shadow-[0_0_15px_rgba(0,255,204,0.2)] transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs uppercase tracking-wider text-slate-400 mb-2">Loan Term (Years)</label>
+                <label className="block text-xs uppercase tracking-wider text-cyan-200/70 mb-2">Loan Term (Years)</label>
                 <div className="relative">
-                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gold-500" />
+                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-500 drop-shadow-[0_0_5px_rgba(0,255,204,0.5)]" />
                   <input
                     type="range"
                     min="5"
@@ -114,11 +128,11 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
                     step="1"
                     value={loanTerm}
                     onChange={(e) => setLoanTerm(Number(e.target.value))}
-                    className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-gold-500"
+                    className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400 drop-shadow-[0_0_8px_rgba(0,255,204,0.6)]"
                   />
-                  <div className="flex justify-between mt-2 text-sm text-slate-400">
+                  <div className="flex justify-between mt-2 text-sm text-cyan-200/50">
                     <span>5 Years</span>
-                    <span className="text-gold-400 font-semibold">{loanTerm} Years</span>
+                    <span className="text-cyan-400 font-semibold text-glow-accent">{loanTerm} Years</span>
                     <span>40 Years</span>
                   </div>
                 </div>
@@ -127,8 +141,17 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
           </div>
 
           {/* Result Section */}
-          <div className="glass-card bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-2xl p-8 rounded-2xl flex flex-col justify-between">
-            <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4">Financial Projection</h2>
+          <div
+            className="glass-light-panel spotlight-card shadow-2xl p-8 rounded-2xl flex flex-col justify-between"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+              e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+            }}
+          >
+            <h2 className="text-xl font-serif text-white mb-6 border-b border-white/10 pb-4 text-glow">Financial Projection</h2>
 
             <div className="flex-grow flex items-center justify-center min-h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -158,13 +181,13 @@ const MortgageCalculator: React.FC<MortgageCalculatorProps> = ({
             </div>
 
             <div className="grid grid-cols-2 gap-4 mt-8">
-              <div className="bg-slate-950/50 p-4 rounded-xl border border-white/5">
-                <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Monthly Payment</p>
-                <p className="text-2xl font-serif text-gold-400">${results.monthly.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+              <div className="bg-black/30 p-4 rounded-xl border border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+                <p className="text-cyan-200/70 text-xs uppercase tracking-wider mb-1">Monthly Payment</p>
+                <p className="text-2xl font-serif text-cyan-400 text-glow-accent">${results.monthly.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
               </div>
-              <div className="bg-slate-950/50 p-4 rounded-xl border border-white/5">
-                <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Total Interest</p>
-                <p className="text-2xl font-serif text-white">${results.interest.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+              <div className="bg-black/30 p-4 rounded-xl border border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+                <p className="text-cyan-200/70 text-xs uppercase tracking-wider mb-1">Total Interest</p>
+                <p className="text-2xl font-serif text-white text-glow">${results.interest.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
               </div>
             </div>
           </div>
