@@ -232,9 +232,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         <header className="text-center mb-20 animate-fade-in-up relative z-10 flex flex-col items-center">
           {/* Holographic Logo Mark */}
           <div className="relative mb-10 group cursor-default">
-            {/* Core Glow */}
-            <div className="absolute inset-0 bg-cyan-500/30 blur-2xl rounded-full group-hover:bg-cyan-400/40 transition-colors duration-700"></div>
-            <div className="absolute inset-0 bg-blue-600/20 blur-xl rounded-full translate-y-2 group-hover:translate-y-4 transition-transform duration-700 delay-100"></div>
+            {/* Core Glow - Expanded to prevent "square" clipping */}
+            <div className="absolute -inset-16 bg-cyan-500/20 blur-3xl rounded-full group-hover:bg-cyan-400/30 transition-colors duration-700"></div>
+            <div className="absolute -inset-10 bg-blue-600/15 blur-2xl rounded-full translate-y-4 group-hover:translate-y-8 transition-transform duration-700 delay-100"></div>
 
             {/* Holographic Investment Logo (Bar Chart Loop Style) */}
             <svg
@@ -336,8 +336,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
                 {/* Advanced Holographic Circular Card Logo */}
                 <div className="relative w-16 h-16 md:w-20 md:h-20 mb-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
 
-                  {/* Hexagonal/Circular Base Glow */}
-                  <div className={`absolute inset-0 bg-gradient-radial ${item.gradientFrom.replace('from-', 'from-').replace(/-\d+/, '-500/50')} to-transparent blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700`}></div>
+                  {/* Hexagonal/Circular Base Glow - Expanded inset to avoid square edges */}
+                  <div className={`absolute -inset-8 bg-gradient-radial ${item.gradientFrom.replace('from-', 'from-').replace(/-\d+/, '-500/40')} to-transparent blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700`}></div>
 
                   {/* Outer Tech Ring (Dashed) */}
                   <div className={`absolute inset-[-8px] rounded-full border border-dashed border-${item.gradientFrom.replace('from-', '')}/40 animate-[spin_20s_linear_infinite] group-hover:border-${item.gradientFrom.replace('from-', '')}/80 transition-colors duration-500`}></div>
