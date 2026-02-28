@@ -8,7 +8,13 @@ import {
   ShieldCheck,
   Globe,
   Ticket,
-  Calculator
+  Calculator,
+  Zap,
+  Briefcase,
+  Activity,
+  Award,
+  BarChart3,
+  Layers
 } from 'lucide-react';
 import MortgageCalculator from './components/MortgageCalculator';
 import ProposalGenerator from './components/ProposalGenerator';
@@ -112,26 +118,28 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       icon: Building2,
       action: () => window.location.href = 'https://firaen22.github.io/TMP2-mortgage-with-report/',
       iconColor: 'text-white',
-      gradientFrom: 'from-blue-500',
-      gradientTo: 'to-blue-700',
-      shadowColor: 'shadow-blue-500/20',
+      gradientFrom: 'from-cyan-500',
+      gradientTo: 'to-blue-600',
+      shadowColor: 'shadow-cyan-500/20',
       external: true,
-      buttonText: 'Access Tool'
+      buttonText: 'Access Tool',
+      size: 'large' // Spans 2 columns on lg
     },
     {
       id: 'proposal',
       label: '私人財富建議書系統',
       subLabel: 'Proposal Generator',
       description: 'Generate bespoke investment strategies and PDF proposals tailored to client risk profiles.',
-      icon: FileText,
+      icon: Briefcase,
       action: () => window.location.href = 'https://proposal-genertor-v8.vercel.app/',
       iconColor: 'text-slate-900',
-      gradientFrom: 'from-gold-400',
-      gradientTo: 'to-gold-600',
-      shadowColor: 'shadow-gold-500/20',
+      gradientFrom: 'from-amber-400',
+      gradientTo: 'to-orange-500',
+      shadowColor: 'shadow-amber-500/20',
       external: true,
       buttonText: 'Generate Now',
-      className: 'border-t border-gold-500/20'
+      className: 'border-t border-amber-500/20',
+      size: 'normal'
     },
     {
       id: 'crs',
@@ -141,53 +149,57 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       icon: Globe,
       action: () => window.location.href = 'https://firaen22.github.io/CRS-proposal-generator/',
       iconColor: 'text-white',
-      gradientFrom: 'from-emerald-500',
-      gradientTo: 'to-emerald-700',
+      gradientFrom: 'from-emerald-400',
+      gradientTo: 'to-teal-600',
       shadowColor: 'shadow-emerald-500/20',
       external: true,
-      buttonText: 'Access Portal'
+      buttonText: 'Access Portal',
+      size: 'normal'
     },
     {
       id: 'fund-chart',
       label: '基金圖表構建器',
       subLabel: 'Fund Chart Builder',
       description: 'Visualize fund performance and generate comparison charts for investment analysis.',
-      icon: LineChart,
+      icon: Activity,
       action: () => window.open('https://fund-chart-builder.vercel.app/', '_blank'),
       iconColor: 'text-white',
       gradientFrom: 'from-purple-500',
-      gradientTo: 'to-purple-700',
+      gradientTo: 'to-indigo-600',
       shadowColor: 'shadow-purple-500/20',
       external: true,
-      buttonText: 'View Charts'
+      buttonText: 'View Charts',
+      size: 'large' // Spans 2 columns on lg
     },
     {
       id: 'voucher',
       label: '保費現金券計算機',
       subLabel: 'Premium Voucher Calculator',
       description: 'Calculate premium vouchers and optimize payment strategies for insurance plans.',
-      icon: Ticket,
+      icon: Award,
       action: () => window.open('https://firaen22.github.io/premium-planner/', '_blank'),
       iconColor: 'text-white',
-      gradientFrom: 'from-rose-500',
-      gradientTo: 'to-rose-700',
+      gradientFrom: 'from-rose-400',
+      gradientTo: 'to-pink-600',
       shadowColor: 'shadow-rose-500/20',
       external: true,
-      buttonText: 'Calculate Now'
+      buttonText: 'Calculate Now',
+      size: 'normal'
     },
     {
       id: 'financing',
       label: '保費融資計算機',
       subLabel: 'Premium Financing Calculator',
       description: 'Calculate premium financing details and optimize leverage strategies.',
-      icon: Calculator,
+      icon: Zap,
       action: () => window.open('https://premium-financing-calculator.vercel.app/', '_blank'),
       iconColor: 'text-white',
-      gradientFrom: 'from-cyan-500',
-      gradientTo: 'to-cyan-700',
+      gradientFrom: 'from-sky-400',
+      gradientTo: 'to-blue-500',
       shadowColor: 'shadow-cyan-500/20',
       external: true,
-      buttonText: 'Calculate Now'
+      buttonText: 'Calculate Now',
+      size: 'normal'
     }
   ];
 
@@ -227,12 +239,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         </header>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl auto-rows-[300px]">
           {menuItems.map((item) => (
             <button
               key={item.id}
               onClick={item.action}
-              className={`group relative h-[400px] text-left p-8 glass-light-panel spotlight-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(0,255,204,0.15)] active:scale-[0.98] flex flex-col justify-between overflow-hidden ${item.className || ''}`}
+              className={`group relative text-left p-8 glass-light-panel spotlight-card rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(0,255,204,0.15)] active:scale-[0.98] flex flex-col justify-between overflow-hidden ${item.size === 'large' ? 'lg:col-span-2' : ''} ${item.className || ''}`}
               onMouseMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -241,24 +253,30 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
                 e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
               }}
             >
-              <div className={`absolute inset-0 bg-gradient-to-b ${item.gradientFrom}/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradientFrom}/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl`}></div>
 
-              <div className="relative z-10 mix-blend-screen">
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradientFrom} ${item.gradientTo} flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,255,255,0.2)] group-hover:scale-110 transition-transform duration-500 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]`}>
-                  <item.icon className={`w-7 h-7 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]`} />
+              {/* Optional: Add a subtle animated grain or mesh to the background of cards */}
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20 mix-blend-overlay rounded-3xl pointer-events-none"></div>
+
+              <div className="relative z-10 mix-blend-screen h-full flex flex-col">
+                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.gradientFrom} ${item.gradientTo} flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,255,255,0.2)] group-hover:scale-110 transition-transform duration-500 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]`}>
+                  <item.icon className={`w-6 h-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]`} />
                 </div>
-                <h3 className="text-xl font-serif text-white mb-2 whitespace-nowrap text-glow">{item.label}</h3>
-                <p className="text-xs text-slate-400 font-medium tracking-widest uppercase mb-4 leading-relaxed group-hover:text-cyan-200 transition-colors">
-                  {item.subLabel}
-                </p>
-                <p className="text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0 group-hover:text-slate-200">
-                  {item.description}
-                </p>
-              </div>
 
-              <div className="relative z-10 flex items-center text-cyan-400 group-hover:text-white group-hover:text-glow-accent text-sm font-semibold tracking-wider uppercase transition-all duration-300">
-                <span>{item.buttonText || 'Enter'}</span>
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
+                <div className="flex-grow">
+                  <h3 className={`font-serif text-white mb-2 whitespace-nowrap text-glow ${item.size === 'large' ? 'text-2xl md:text-3xl' : 'text-xl'}`}>{item.label}</h3>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-medium tracking-widest uppercase mb-3 leading-relaxed group-hover:text-cyan-200 transition-colors">
+                    {item.subLabel}
+                  </p>
+                  <p className={`text-sm text-slate-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 group-hover:text-slate-200 ${item.size === 'large' ? 'max-w-md' : ''}`}>
+                    {item.description}
+                  </p>
+                </div>
+
+                <div className="mt-auto flex items-center justify-end text-cyan-400 group-hover:text-white group-hover:text-glow-accent text-xs font-semibold tracking-wider uppercase transition-all duration-300">
+                  <span className="opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300">{item.buttonText || 'Enter'}</span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
+                </div>
               </div>
             </button>
           ))}
