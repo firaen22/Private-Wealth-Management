@@ -236,7 +236,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
             <div className="absolute inset-0 bg-cyan-500/30 blur-2xl rounded-full group-hover:bg-cyan-400/40 transition-colors duration-700"></div>
             <div className="absolute inset-0 bg-blue-600/20 blur-xl rounded-full translate-y-2 group-hover:translate-y-4 transition-transform duration-700 delay-100"></div>
 
-            {/* Holographic Cube Logo (Reference Img Style) */}
+            {/* Holographic Investment Logo (Bar Chart Loop Style) */}
             <svg
               className="relative w-24 h-24 md:w-32 md:h-32 drop-shadow-[0_0_20px_rgba(0,180,255,0.4)] transform group-hover:scale-105 group-hover:drop-shadow-[0_0_30px_rgba(0,180,255,0.7)] transition-all duration-700"
               viewBox="0 0 100 100"
@@ -244,45 +244,58 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                {/* Cube Top - Cyan/Teal */}
-                <linearGradient id="cube-top" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#2dd4bf" /> {/* Teal 400 */}
-                  <stop offset="100%" stopColor="#0ea5e9" /> {/* Sky 500 */}
-                </linearGradient>
-                {/* Cube Left - Blueish */}
-                <linearGradient id="cube-left" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0284c7" /> {/* Sky 600 */}
+                <linearGradient id="inv-bar-blue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0ea5e9" /> {/* Sky 500 */}
                   <stop offset="100%" stopColor="#1e3a8a" /> {/* Blue 900 */}
                 </linearGradient>
-                {/* Cube Right - Darker Blue */}
-                <linearGradient id="cube-right" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0369a1" /> {/* Sky 700 */}
-                  <stop offset="100%" stopColor="#172554" /> {/* Blue 950 */}
+                <linearGradient id="inv-bar-grey" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#94a3b8" /> {/* Slate 400 */}
+                  <stop offset="100%" stopColor="#334155" /> {/* Slate 700 */}
+                </linearGradient>
+                <linearGradient id="inv-arrow-blue" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#38bdf8" /> {/* Sky 400 */}
+                  <stop offset="100%" stopColor="#1d4ed8" /> {/* Blue 700 */}
+                </linearGradient>
+                <linearGradient id="inv-arrow-grey" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#e2e8f0" /> {/* Slate 200 */}
+                  <stop offset="100%" stopColor="#64748b" /> {/* Slate 500 */}
                 </linearGradient>
               </defs>
 
-              {/* Background Ambient Hexagon Glow */}
-              <path d="M50 5 L90 27.5 L90 72.5 L50 95 L10 72.5 L10 27.5 Z" fill="rgba(0,180,255,0.05)" className="animate-[pulse_3s_ease-in-out_infinite]" />
+              {/* Background Ambient Circular Glow */}
+              <circle cx="50" cy="50" r="40" fill="rgba(0,180,255,0.05)" className="animate-[pulse_4s_ease-in-out_infinite]" />
 
-              {/* Outer Hexagon Outline */}
-              <path d="M50 8 L87 29 L87 71 L50 92 L13 71 L13 29 Z" stroke="#38bdf8" strokeWidth="1.5" strokeOpacity="0.4" className="mix-blend-screen" />
+              {/* Top Sweeping Arrow (Grey) */}
+              <path d="M 10 50 A 40 40 0 0 1 90 50 L 98 50 L 85 70 L 72 50 L 80 50 A 30 30 0 0 0 20 50 Z" fill="url(#inv-arrow-grey)" className="drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
 
-              {/* Dotted Inner Connectors */}
-              <path d="M50 8 L50 35 M13 29 L35 45 M87 29 L65 45 M13 71 L35 55 M87 71 L65 55 M50 92 L50 65" stroke="#38bdf8" strokeWidth="1" strokeDasharray="1 3" strokeLinecap="round" className="opacity-50" />
+              {/* Bottom Sweeping Arrow (Blue) */}
+              <path d="M 90 50 A 40 40 0 0 1 10 50 L 2 50 L 15 30 L 28 50 L 20 50 A 30 30 0 0 0 80 50 Z" fill="url(#inv-arrow-blue)" className="drop-shadow-[0_0_12px_rgba(0,180,255,0.5)] mix-blend-screen" />
 
-              {/* 3D Core Cube */}
-              <g className="drop-shadow-[0_0_15px_rgba(0,150,255,0.6)]">
-                {/* Top Face */}
-                <path d="M50 35 L68 45 L50 55 L32 45 Z" fill="url(#cube-top)" className="mix-blend-screen opacity-90" />
-                {/* Left Face */}
-                <path d="M32 45 L50 55 L50 75 L32 65 Z" fill="url(#cube-left)" className="opacity-95" />
-                {/* Right Face */}
-                <path d="M50 55 L68 45 L68 65 L50 75 Z" fill="url(#cube-right)" className="opacity-95" />
+              {/* Inner Bars */}
+              <g className="drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                {/* Left Bar (Blue) */}
+                <rect x="32" y="50" width="10" height="25" fill="url(#inv-bar-blue)" rx="1" />
+                {/* Middle Bar (Grey) */}
+                <rect x="45" y="35" width="10" height="40" fill="url(#inv-bar-grey)" rx="1" />
+                {/* Right Bar (Blue) */}
+                <rect x="58" y="20" width="10" height="55" fill="url(#inv-bar-blue)" rx="1" />
               </g>
 
-              {/* Core Hotspot (The white dot at the top vertex) */}
-              <circle cx="50" cy="45" r="2.5" fill="#ffffff" className="drop-shadow-[0_0_8px_#ffffff]" />
-              <circle cx="50" cy="45" r="4" fill="#ffffff" fillOpacity="0.3" className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
+              {/* White Upward Trend Arrows */}
+              <g fill="#ffffff" className="drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]">
+                {/* Stem 1 (Left to Middle) */}
+                <rect x="42.25" y="45" width="1.5" height="30" />
+                <polygon points="39,45 43,38 47,45" />
+
+                {/* Stem 2 (Middle to Right) */}
+                <rect x="55.25" y="25" width="1.5" height="50" />
+                <polygon points="52,50 56,43 60,50" />
+                <polygon points="52,25 56,18 60,25" />
+              </g>
+
+              {/* Interactive Core Hotspots (Subtle energy pulses at arrow points) */}
+              <circle cx="43" cy="38" r="2" fill="#ffffff" className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" fillOpacity="0.4" />
+              <circle cx="56" cy="18" r="2" fill="#ffffff" className="animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite]" fillOpacity="0.4" />
             </svg>
           </div>
 
