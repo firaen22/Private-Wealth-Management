@@ -316,26 +316,26 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20 mix-blend-overlay rounded-3xl pointer-events-none"></div>
 
               <div className="relative z-10 mix-blend-screen h-full flex flex-col">
-                {/* Advanced Holographic Card Logo */}
-                <div className="relative w-16 h-16 md:w-20 md:h-20 mb-8 group-hover:scale-110 transition-transform duration-700 perspective-[1000px]">
-                  {/* Outer Orbiting Rings */}
-                  <div className={`absolute inset-0 rounded-full border border-${item.gradientFrom.replace('from-', '')}/30 animate-[spin_10s_linear_infinite] group-hover:border-${item.gradientFrom.replace('from-', '')}/60 transition-colors duration-500`} style={{ transformStyle: 'preserve-3d', transform: 'rotateX(60deg) rotateZ(0deg)' }}></div>
-                  <div className={`absolute inset-[-4px] rounded-full border border-${item.gradientTo.replace('to-', '')}/20 animate-[spin_15s_linear_infinite_reverse] group-hover:border-${item.gradientTo.replace('to-', '')}/50 transition-colors duration-500`} style={{ transformStyle: 'preserve-3d', transform: 'rotateY(60deg) rotateZ(0deg)' }}></div>
+                {/* Advanced Holographic Circular Card Logo */}
+                <div className="relative w-16 h-16 md:w-20 md:h-20 mb-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
 
-                  {/* Background Aura */}
-                  <div className={`absolute inset-2 bg-gradient-radial ${item.gradientFrom.replace('from-', 'from-').replace(/-\d+/, '-500/40')} to-transparent blur-xl opacity-50 group-hover:opacity-80 transition-opacity duration-500`}></div>
+                  {/* Hexagonal/Circular Base Glow */}
+                  <div className={`absolute inset-0 bg-gradient-radial ${item.gradientFrom.replace('from-', 'from-').replace(/-\d+/, '-500/50')} to-transparent blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700`}></div>
 
-                  {/* Core Glass Receptacle */}
-                  <div className={`absolute inset-2 rounded-2xl bg-gradient-to-br ${item.gradientFrom}/80 ${item.gradientTo}/80 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-[inset_0_0_20px_rgba(255,255,255,0.4),0_0_25px_rgba(0,255,204,0.3)] group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.6),0_0_40px_rgba(0,255,204,0.6)] transition-all duration-500`}>
+                  {/* Outer Tech Ring (Dashed) */}
+                  <div className={`absolute inset-[-8px] rounded-full border border-dashed border-${item.gradientFrom.replace('from-', '')}/40 animate-[spin_20s_linear_infinite] group-hover:border-${item.gradientFrom.replace('from-', '')}/80 transition-colors duration-500`}></div>
 
-                    {/* Inner Hologram Glow */}
-                    <div className="absolute inset-0 bg-white/10 rounded-2xl animate-[pulse_3s_ease-in-out_infinite] mix-blend-overlay"></div>
+                  {/* Inner Tech Ring (Solid) */}
+                  <div className={`absolute inset-1 rounded-full border border-${item.gradientTo.replace('to-', '')}/30 animate-[spin_15s_linear_infinite_reverse] group-hover:border-${item.gradientTo.replace('to-', '')}/60 transition-colors duration-500`}></div>
+
+                  {/* Core Circular Orb */}
+                  <div className={`relative w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-tr ${item.gradientFrom} ${item.gradientTo} flex items-center justify-center shadow-[inset_0_-4px_10px_rgba(0,0,0,0.5),inset_0_4px_10px_rgba(255,255,255,0.6),0_0_20px_${item.shadowColor.replace('shadow-', '').replace('/20', '')}/60] group-hover:shadow-[inset_0_-4px_10px_rgba(0,0,0,0.6),inset_0_4px_15px_rgba(255,255,255,0.8),0_0_35px_${item.shadowColor.replace('shadow-', '').replace('/20', '')}/90] transition-all duration-500`}>
+
+                    {/* Pulsing Core Hotspot */}
+                    <div className="absolute inset-2 bg-white/20 rounded-full blur-[2px] animate-[pulse_2s_ease-in-out_infinite]"></div>
 
                     {/* The Icon Itself */}
-                    <item.icon className="relative z-10 w-8 h-8 md:w-10 md:h-10 text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.9)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,1)] transition-all duration-300 transform group-hover:-translate-y-1" />
-
-                    {/* Glare/Highlight */}
-                    <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-t-2xl pointer-events-none"></div>
+                    <item.icon className="relative z-10 w-6 h-6 md:w-8 md:h-8 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-300" />
                   </div>
                 </div>
 
