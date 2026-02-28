@@ -232,13 +232,19 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         <header className="text-center mb-20 animate-fade-in-up relative z-10 flex flex-col items-center">
           {/* Holographic Logo Mark */}
           <div className="relative mb-10 group cursor-default">
-            {/* Core Glow - Expanded to prevent "square" clipping */}
-            <div className="absolute -inset-16 bg-cyan-500/20 blur-3xl rounded-full group-hover:bg-cyan-400/30 transition-colors duration-700"></div>
-            <div className="absolute -inset-10 bg-blue-600/15 blur-2xl rounded-full translate-y-4 group-hover:translate-y-8 transition-transform duration-700 delay-100"></div>
+            {/* Core Glow - Radial Gradient with no clipping */}
+            <div
+              className="absolute -inset-24 rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-700"
+              style={{ background: 'radial-gradient(circle, rgba(6,182,212,0.4) 0%, transparent 70%)' }}
+            ></div>
+            <div
+              className="absolute -inset-16 rounded-full blur-2xl translate-y-4 group-hover:translate-y-8 transition-transform duration-700 delay-100 opacity-30"
+              style={{ background: 'radial-gradient(circle, rgba(30,58,138,0.5) 0%, transparent 70%)' }}
+            ></div>
 
             {/* Holographic Investment Logo (Bar Chart Loop Style) */}
             <svg
-              className="relative w-24 h-24 md:w-32 md:h-32 drop-shadow-[0_0_20px_rgba(0,180,255,0.4)] transform group-hover:scale-105 group-hover:drop-shadow-[0_0_30px_rgba(0,180,255,0.7)] transition-all duration-700"
+              className="relative w-24 h-24 md:w-32 md:h-32 overflow-visible drop-shadow-[0_0_20px_rgba(0,180,255,0.4)] transform group-hover:scale-105 group-hover:drop-shadow-[0_0_30px_rgba(0,180,255,0.7)] transition-all duration-700"
               viewBox="0 0 100 100"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -336,8 +342,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
                 {/* Advanced Holographic Circular Card Logo */}
                 <div className="relative w-16 h-16 md:w-20 md:h-20 mb-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
 
-                  {/* Hexagonal/Circular Base Glow - Expanded inset to avoid square edges */}
-                  <div className={`absolute -inset-8 bg-gradient-radial ${item.gradientFrom.replace('from-', 'from-').replace(/-\d+/, '-500/40')} to-transparent blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700`}></div>
+                  {/* Hexagonal/Circular Base Glow - Added rounded-full to fix square edges */}
+                  <div className={`absolute -inset-8 rounded-full bg-gradient-radial ${item.gradientFrom.replace('from-', 'from-').replace(/-\d+/, '-500/40')} to-transparent blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700`}></div>
 
                   {/* Outer Tech Ring (Dashed) */}
                   <div className={`absolute inset-[-8px] rounded-full border border-dashed border-${item.gradientFrom.replace('from-', '')}/40 animate-[spin_20s_linear_infinite] group-hover:border-${item.gradientFrom.replace('from-', '')}/80 transition-colors duration-500`}></div>
