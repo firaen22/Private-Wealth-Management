@@ -207,7 +207,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       subLabel: 'Market Index Monitor',
       description: 'Track real-time global market indices and financial data performance.',
       icon: BarChart3,
-      action: () => window.open('https://marketview-index.vercel.app/', '_blank'),
+      action: () => window.open('https://marketview-index-4a8k.vercel.app/', '_blank'),
       iconColor: 'text-white',
       gradientFrom: 'from-fuchsia-500',
       gradientTo: 'to-purple-600',
