@@ -202,9 +202,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       size: 'normal'
     },
     {
-      id: 'market-index',
-      label: '市場指數監控',
-      subLabel: 'Market Index Monitor',
+      id: 'market-view',
+      label: '市場視圖',
+      subLabel: 'Market View',
       description: 'Track real-time global market indices and financial data performance.',
       icon: BarChart3,
       action: () => window.open('https://marketview-index-4a8k.vercel.app/', '_blank'),
