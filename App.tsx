@@ -14,7 +14,8 @@ import {
   Activity,
   Award,
   BarChart3,
-  Layers
+  Layers,
+  Share2
 } from 'lucide-react';
 import MortgageCalculator from './components/MortgageCalculator';
 import ProposalGenerator from './components/ProposalGenerator';
@@ -116,7 +117,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       subLabel: 'Property Appreciation Solution & Funds',
       description: 'Advanced mortgage calculators and fund appreciation projection tools for real estate assets.',
       icon: Building2,
-      action: () => window.location.href = 'https://firaen22.github.io/TMP2-mortgage-with-report/',
+      action: () => window.location.href = 'https://tmp2cal.pmd-hk.com/',
       iconColor: 'text-white',
       gradientFrom: 'from-cyan-500',
       gradientTo: 'to-blue-600',
@@ -131,7 +132,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       subLabel: 'Proposal Generator',
       description: 'Generate bespoke investment strategies and PDF proposals tailored to client risk profiles.',
       icon: Briefcase,
-      action: () => window.location.href = 'https://proposal-genertor-v8.vercel.app/',
+      action: () => window.location.href = 'https://savingproposalgen.pmd-hk.com/',
       iconColor: 'text-slate-900',
       gradientFrom: 'from-amber-400',
       gradientTo: 'to-orange-500',
@@ -162,7 +163,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       subLabel: 'Fund Chart Builder',
       description: 'Visualize fund performance and generate comparison charts for investment analysis.',
       icon: Activity,
-      action: () => window.open('https://fund-chart-builder.vercel.app/', '_blank'),
+      action: () => window.open('https://fundchartbuilder.pmd-hk.com/', '_blank'),
       iconColor: 'text-white',
       gradientFrom: 'from-purple-500',
       gradientTo: 'to-indigo-600',
@@ -192,7 +193,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       subLabel: 'Premium Financing Calculator',
       description: 'Calculate premium financing details and optimize leverage strategies.',
       icon: Zap,
-      action: () => window.open('https://premium-financing-calculator.vercel.app/', '_blank'),
+      action: () => window.open('https://prefincal.pmd-hk.com/', '_blank'),
       iconColor: 'text-white',
       gradientFrom: 'from-sky-400',
       gradientTo: 'to-blue-500',
@@ -207,7 +208,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       subLabel: 'Market View',
       description: 'Track real-time global market indices and financial data performance.',
       icon: BarChart3,
-      action: () => window.open('https://marketview-index-4a8k.vercel.app/', '_blank'),
+      action: () => window.open('https://marketindex.pmd-hk.com/', '_blank'),
       iconColor: 'text-white',
       gradientFrom: 'from-fuchsia-500',
       gradientTo: 'to-purple-600',
@@ -215,6 +216,21 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
       external: true,
       buttonText: 'View Markets',
       size: 'large'
+    },
+    {
+      id: 'share-tool',
+      label: '市場視圖及方案分享工具',
+      subLabel: 'Market View & Solution Sharing Tool',
+      description: 'Share market views and investment solutions with clients via interactive presentation links.',
+      icon: Share2,
+      action: () => window.open('https://share.pmd-hk.com/', '_blank'),
+      iconColor: 'text-white',
+      gradientFrom: 'from-teal-400',
+      gradientTo: 'to-emerald-600',
+      shadowColor: 'shadow-teal-500/20',
+      external: true,
+      buttonText: 'Share Now',
+      size: 'normal'
     }
   ];
 
@@ -234,7 +250,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
         {/* Top Right Portal Access */}
         <div className="absolute top-8 right-8 z-20">
           <button
-            onClick={() => window.location.href = 'https://insureflow-lite.vercel.app/'}
+            onClick={() => window.location.href = 'https://insureflow.pmd-hk.com/'}
             className="flex items-center space-x-2 px-6 py-2.5 rounded-full border border-yellow-500/50 bg-yellow-500/10 text-yellow-300 hover:bg-yellow-400/20 hover:border-yellow-400 hover:text-white shadow-[0_0_15px_rgba(234,179,8,0.2)] hover:shadow-[0_0_25px_rgba(250,204,21,0.5)] transition-all duration-300 group"
           >
             <div className="w-2 h-2 rounded-full bg-yellow-400 group-hover:bg-white animate-pulse drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]"></div>
